@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 100dvh;
+    background-color: #0F172A;
+    overflow-x: hidden;
+    padding-bottom: 90px;
+}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.glass-header {
+    background: rgba(15, 23, 42, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+.brand-gradient {
+    background: linear-gradient(135deg, #3ab9f8 0%, #8b5cf6 100%);
+}
+.card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); }
+.tab-content { display: none; animation: fadeIn 0.3s ease-out forwards; }
+.tab-content.active { display: block; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(100%); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.modal-animate-enter { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* Loader */
+.loader {
+    border: 3px solid rgba(58, 185, 248, 0.3);
+    border-radius: 50%;
+    border-top: 3px solid #3ab9f8;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }

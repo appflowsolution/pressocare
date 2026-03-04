@@ -1,0 +1,47 @@
+[debug] [2026-03-04T01:16:14.050Z] ----------------------------------------------------------------------
+[debug] [2026-03-04T01:16:14.052Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\nurda\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init hosting
+[debug] [2026-03-04T01:16:14.053Z] CLI Version:   15.1.0
+[debug] [2026-03-04T01:16:14.053Z] Platform:      win32
+[debug] [2026-03-04T01:16:14.053Z] Node Version:  v22.20.0
+[debug] [2026-03-04T01:16:14.053Z] Time:          Tue Mar 03 2026 20:16:14 GMT-0500 (Eastern Standard Time)
+[debug] [2026-03-04T01:16:14.053Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-03-04T01:16:14.055Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\nurda\OneDrive\Escritorio\Proyectos Dev\PressoCare
+
+[debug] [2026-03-04T01:16:16.563Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-03-04T01:16:16.564Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] 
+[debug] [2026-03-04T01:16:43.259Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-03-04T01:16:43.259Z] > authorizing via signed-in user (appflowsolution@gmail.com)
+[debug] [2026-03-04T01:16:43.260Z] Checked if tokens are valid: false, expires at: 1772585076836
+[debug] [2026-03-04T01:16:43.260Z] Checked if tokens are valid: false, expires at: 1772585076836
+[debug] [2026-03-04T01:16:43.260Z] > refreshing access token with scopes: []
+[debug] [2026-03-04T01:16:43.261Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-03-04T01:16:43.261Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-03-04T01:16:43.407Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-03-04T01:16:43.407Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-03-04T01:16:43.414Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/fnscontractor-website-2025 [none]
+[debug] [2026-03-04T01:16:43.798Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/fnscontractor-website-2025 403
+[debug] [2026-03-04T01:16:43.798Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/fnscontractor-website-2025 {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-03-04T01:16:43.799Z] Request to https://firebase.googleapis.com/v1beta1/projects/fnscontractor-website-2025 had HTTP Error: 403, The caller does not have permission
+[debug] [2026-03-04T01:16:43.800Z] FirebaseError: Request to https://firebase.googleapis.com/v1beta1/projects/fnscontractor-website-2025 had HTTP Error: 403, The caller does not have permission
+    at responseToError (C:\Users\nurda\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:53:12)
+    at RetryOperation._fn (C:\Users\nurda\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:322:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[error] 
+[error] Error: Failed to get Firebase project fnscontractor-website-2025. Please make sure the project exists and your account has permission to access it.

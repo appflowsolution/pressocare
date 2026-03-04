@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <title>PressoCare - Blood Pressure Tracker</title>
+
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3ab9f8",
+                        "accent": "#8b5cf6",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0F172A",
+                        "card-dark": "#1E293B",
+                        "success": "#10b981",
+                        "warning": "#f59e0b",
+                        "danger-1": "#f97316",
+                        "danger-2": "#ef4444",
+                        "crisis": "#991b1b"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    boxShadow: {
+                        'glow': '0 0 15px rgba(58, 185, 248, 0.5)',
+                    }
+                },
+            },
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="dark text-slate-100 font-display">
+
+    <!-- AUTHENTICATION SCREEN -->
+    <div id="auth-screen"
+        class="fixed inset-0 z-[100] bg-background-dark flex flex-col justify-center items-center px-6 transition-opacity duration-300">
+        <div
+            class="w-full max-w-sm bg-card-dark p-8 rounded-[24px] border border-slate-800/60 card-shadow relative overflow-hidden">
+            <!-- Decorative Glow -->
+            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full -mr-16 -mt-16"></div>
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 blur-3xl rounded-full -ml-16 -mb-16"></div>
+
+            <div class="text-center relative z-10 mb-8">
+                <span class="material-symbols-outlined text-primary text-5xl fill-1 mb-2">favorite</span>
+                <h1 class="text-2xl font-bold tracking-tight text-white mb-1">PressoCare</h1>
+                <p class="text-slate-400 text-sm">Sign in to sync your data</p>
+            </div>
+
+            <form id="auth-form" class="relative z-10 flex flex-col gap-4">
+                <label class="flex flex-col gap-1.5">
+                    <span class="text-slate-400 text-xs font-bold uppercase tracking-wider ml-1">Email Address</span>
+                    <input id="auth-email" required type="email"
+                        class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                        placeholder="you@email.com" />
+                </label>
+                <label class="flex flex-col gap-1.5 mb-2">
+                    <span class="text-slate-400 text-xs font-bold uppercase tracking-wider ml-1">Password</span>
+                    <input id="auth-password" required minlength="6" type="password"
+                        class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                        placeholder="••••••••" />
+                </label>
+
+                <div id="auth-error-msg"
+                    class="hidden text-danger-2 text-xs text-center font-medium bg-danger-2/10 py-2 rounded-lg border border-danger-2/20">
+                </div>
+
+                <button type="submit" id="auth-submit-btn"
+                    class="w-full h-12 bg-gradient-to-r from-primary to-accent text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 mt-2">
+                    Log In
+                </button>
+            </form>
+
+            <div class="mt-6 text-center relative z-10">
+                <span class="text-slate-500 text-sm">Don't have an account?</span>
+                <button type="button" id="auth-toggle-btn"
+                    class="text-primary font-bold ml-1 hover:underline focus:outline-none">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP WRAPPER (Hidden until authenticated) -->
+    <div id="main-app" class="hidden opacity-0 transition-opacity duration-300">
+        <!-- Header -->
+        <header
+            class="sticky top-0 z-20 glass-header px-4 pt-6 pb-4 border-b border-slate-800/50 flex flex-row items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-2xl fill-1">favorite</span>
+                <h1 class="text-lg font-bold tracking-tight text-white hidden sm:block">PressoCare</h1>
+            </div>
+
+            <!-- Active Profile Selector -->
+            <div class="flex-1 flex justify-center px-4">
+                <div class="relative w-full max-w-[200px]">
+                    <select id="active-profile-select" onchange="window.appActions.onActiveProfileChange()"
+                        class="appearance-none w-full bg-slate-800 border border-slate-700 text-white text-sm font-semibold rounded-full px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-primary/50 text-center truncate">
+                        <option value="">Loading profiles...</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+                        <span class="material-symbols-outlined text-sm">expand_more</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="window.appActions.signOutUser()"
+                class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center border border-primary/20 transition-colors focus:outline-none flex-shrink-0"
+                title="Sign Out">
+                <span class="material-symbols-outlined text-danger-2/80">logout</span>
+            </button>
+        </header>
+
+        <!-- No Profiles Warning -->
+        <div id="no-profiles-warning"
+            class="hidden bg-warning/20 border-l-4 border-warning p-4 m-6 rounded shadow-sm text-sm text-amber-100">
+            <strong>Attention:</strong> You must create a profile before adding measurements. Go to the "Profiles" tab.
+        </div>
+
+        <!-- TAB 1: History -->
+        <main id="tab-history" class="tab-content px-6 mt-6 pb-48 hide-scrollbar">
+            <div class="mb-6 flex justify-between items-end">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">History</h2>
+                </div>
+            </div>
+
+            <!-- Loading indicator for data -->
+            <div id="data-loading" class="flex justify-center py-10">
+                <div class="loader"></div>
+            </div>
+
+            <!-- List Container -->
+            <div id="history-list" class="space-y-4 hidden">
+                <!-- History items rendered dynamically -->
+            </div>
+
+            <!-- Empty message -->
+            <div id="empty-history" class="hidden flex-col items-center justify-center py-12 text-center">
+                <div
+                    class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mb-4 border border-slate-700">
+                    <span class="material-symbols-outlined text-3xl text-slate-500">history_toggle_off</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">No records found</h3>
+                <p class="text-slate-400 text-sm max-w-[250px]">Tap the "+" button at the bottom to add your first
+                    measurement for this profile.</p>
+            </div>
+        </main>
+
+        <!-- TAB 2: Statistics (Home) -->
+        <main id="tab-stats" class="tab-content active px-6 mt-6 pb-48 hide-scrollbar">
+            <div class="mb-6 flex justify-between items-end">
+                <div>
+                    <h2 class="text-2xl font-bold text-white">Home</h2>
+                </div>
+            </div>
+
+            <!-- Quick Indicators -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-card-dark rounded-xl p-5 shadow-sm border-t-2 border-primary card-shadow">
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Average</p>
+                    <div class="flex items-baseline gap-1">
+                        <span id="stat-avg" class="text-2xl font-bold text-white">-/-</span>
+                        <span class="text-slate-500 text-xs">mmHg</span>
+                    </div>
+                </div>
+                <div class="bg-card-dark rounded-xl p-5 shadow-sm border-t-2 border-accent card-shadow">
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Avg. Pulse</p>
+                    <div class="flex items-baseline gap-1">
+                        <span id="stat-pulse" class="text-2xl font-bold text-white">-</span>
+                        <span class="text-slate-500 text-xs">bpm</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div
+                    class="bg-card-dark rounded-xl p-4 shadow-sm border border-slate-800/60 flex flex-col items-center justify-center">
+                    <span class="text-slate-500 text-[10px] font-bold uppercase mb-1">Minimum</span>
+                    <span id="stat-min" class="text-lg font-bold text-primary">-/-</span>
+                </div>
+                <div
+                    class="bg-card-dark rounded-xl p-4 shadow-sm border border-slate-800/60 flex flex-col items-center justify-center">
+                    <span class="text-slate-500 text-[10px] font-bold uppercase mb-1">Maximum</span>
+                    <span id="stat-max" class="text-lg font-bold text-danger-2">-/-</span>
+                </div>
+            </div>
+
+            <!-- Distribution -->
+            <div class="mb-8">
+                <h3 class="font-bold text-lg text-white mb-4">Status Distribution</h3>
+                <div id="distribution-list"
+                    class="space-y-3 bg-card-dark p-5 rounded-2xl border border-slate-800/60 card-shadow">
+                    <!-- Data rendered via JS -->
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div
+                class="bg-card-dark rounded-[24px] p-6 card-shadow border border-slate-800/60 relative overflow-hidden mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-lg text-white">Pressure Trend</h3>
+                    <div class="flex gap-1 bg-slate-800/50 rounded-lg p-1 border border-slate-700/50">
+                        <button onclick="window.appActions.setChartTimeframe('7d')" id="chart-filter-7d"
+                            class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-400 hover:text-white transition-colors focus:outline-none">Week</button>
+                        <button onclick="window.appActions.setChartTimeframe('30d')" id="chart-filter-30d"
+                            class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-400 hover:text-white transition-colors focus:outline-none">Month</button>
+                        <button onclick="window.appActions.setChartTimeframe('all')" id="chart-filter-all"
+                            class="px-3 py-1 text-[10px] font-bold uppercase rounded-md bg-slate-700 text-white shadow-sm transition-colors focus:outline-none">All</button>
+                    </div>
+                </div>
+                <div class="relative h-56 w-full">
+                    <canvas id="bpChart"></canvas>
+                </div>
+            </div>
+        </main>
+
+        <!-- TAB 3: Profiles -->
+        <main id="tab-profiles" class="tab-content px-6 mt-6 pb-48 hide-scrollbar">
+            <div class="mb-6 flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-white">Family Profiles</h2>
+                <button onclick="window.appActions.openProfileModal()"
+                    class="text-primary text-sm font-bold flex items-center bg-primary/10 px-3 py-1.5 rounded-full hover:bg-primary/20 transition-colors">
+                    <span class="material-symbols-outlined text-[18px] mr-1">person_add</span>
+                    Add
+                </button>
+            </div>
+
+            <p class="text-slate-400 text-sm mb-6">Manage the people who will record measurements on this account.</p>
+
+            <div id="profiles-list" class="space-y-4">
+                <!-- Profiles injected here -->
+            </div>
+
+            <div id="empty-profiles" class="hidden flex-col items-center justify-center py-12 text-center">
+                <div
+                    class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mb-4 border border-slate-700">
+                    <span class="material-symbols-outlined text-3xl text-slate-500">group_off</span>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">No Profiles</h3>
+                <p class="text-slate-400 text-sm">Add the first member to start using the app.</p>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-2xl border-t border-slate-800/80 px-4 py-3 pb-safe-area flex justify-between items-center z-40"
+            style="padding-bottom: env(safe-area-inset-bottom, 16px);">
+            <button onclick="window.appActions.switchTab('stats')" id="nav-stats"
+                class="w-1/3 flex flex-col items-center gap-1 text-primary transition-colors focus:outline-none">
+                <span class="material-symbols-outlined text-[24px] sm:text-[28px] nav-icon fill-1">home</span>
+                <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-tight">Home</span>
+            </button>
+            <button onclick="window.appActions.switchTab('history')" id="nav-history"
+                class="w-1/3 flex flex-col items-center gap-1 text-slate-500 transition-colors focus:outline-none">
+                <span class="material-symbols-outlined text-[24px] sm:text-[28px] nav-icon">history</span>
+                <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-tight">History</span>
+            </button>
+            <button onclick="window.appActions.switchTab('profiles')" id="nav-profiles"
+                class="w-1/3 flex flex-col items-center gap-1 text-slate-500 transition-colors focus:outline-none pr-[60px] xs:pr-0">
+                <span class="material-symbols-outlined text-[24px] sm:text-[28px] nav-icon">group</span>
+                <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-tight">Profiles</span>
+            </button>
+        </nav>
+
+        <!-- Floating Action Button (+ Add Measurement) -->
+        <button onclick="window.appActions.openModal()"
+            class="fixed bottom-[calc(env(safe-area-inset-bottom,16px)+64px)] right-6 md:bottom-6 md:right-1/2 md:translate-x-1/2 z-50 w-14 h-14 md:w-16 md:h-16 brand-gradient rounded-full shadow-lg shadow-primary/40 flex items-center justify-center text-white active:scale-95 transition-transform border-4 border-slate-900 focus:outline-none">
+            <span class="material-symbols-outlined text-3xl">add</span>
+        </button>
+
+        <!-- ============================================== -->
+        <!-- MODALS -->
+        <!-- ============================================== -->
+
+        <!-- MODAL: Add Measurement -->
+        <div id="addModal" class="fixed inset-0 z-[60] flex-col justify-end hidden">
+            <div class="absolute inset-0 bg-background-dark/80 backdrop-blur-sm"
+                onclick="window.appActions.closeModal()"></div>
+
+            <div class="relative w-full bg-slate-900 border-t border-slate-700/50 rounded-t-2xl shadow-2xl overflow-y-auto modal-animate-enter"
+                style="max-h: 92vh;">
+                <div class="flex h-6 w-full items-center justify-center pt-2">
+                    <div class="h-1.5 w-12 rounded-full bg-slate-700"></div>
+                </div>
+
+                <div class="px-6 pt-4 pb-2 text-center">
+                    <h1 id="measurement-modal-title" class="text-white text-2xl font-bold">New Measurement</h1>
+                </div>
+
+                <form id="add-form" onsubmit="window.appActions.handleSave(event)"
+                    class="px-6 py-4 flex flex-col gap-5">
+
+                    <!-- Profile Selector -->
+                    <label class="flex flex-col gap-2">
+                        <span class="text-slate-400 text-sm font-medium ml-1">Who is this for?</span>
+                        <div class="relative group">
+                            <select id="input-profile-id" required
+                                class="appearance-none w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all">
+                                <!-- Options injected via JS -->
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                                <span class="material-symbols-outlined">expand_more</span>
+                            </div>
+                        </div>
+                    </label>
+
+                    <!-- Sys / Dia -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="flex flex-col gap-2">
+                            <span class="text-slate-400 text-sm font-medium ml-1">Systolic</span>
+                            <div class="relative group">
+                                <input id="input-sys" required min="50" max="300"
+                                    class="w-full h-14 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-2xl font-bold text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                                    placeholder="120" type="number" />
+                            </div>
+                        </label>
+                        <label class="flex flex-col gap-2">
+                            <span class="text-slate-400 text-sm font-medium ml-1">Diastolic</span>
+                            <div class="relative group">
+                                <input id="input-dia" required min="30" max="200"
+                                    class="w-full h-14 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-2xl font-bold text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                                    placeholder="80" type="number" />
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- Pulse & Date/Time Row -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="flex flex-col gap-2">
+                            <span class="text-slate-400 text-sm font-medium ml-1">Pulse</span>
+                            <div class="relative group">
+                                <input id="input-pulse" required min="30" max="250"
+                                    class="w-full h-14 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-xl font-bold text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                                    placeholder="72" type="number" />
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2">
+                                    <span class="material-symbols-outlined text-red-500">favorite</span>
+                                </div>
+                            </div>
+                        </label>
+
+                        <div class="flex flex-col gap-2">
+                            <span class="text-slate-400 text-sm font-medium ml-1">Date / Time</span>
+                            <input id="input-date" type="date" required
+                                class="w-full h-8 bg-slate-800/50 border border-slate-700 rounded-lg px-2 text-sm text-white focus:border-primary outline-none transition-all mb-1 cursor-text" />
+                            <input id="input-time" type="time" required
+                                class="w-full h-8 bg-slate-800/50 border border-slate-700 rounded-lg px-2 text-sm text-white focus:border-primary outline-none transition-all cursor-text" />
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <label class="flex flex-col gap-2">
+                        <span class="text-slate-400 text-sm font-medium ml-1">Notes (optional)</span>
+                        <input id="input-notes"
+                            class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-sm text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                            placeholder="How do you feel?" type="text" />
+                    </label>
+
+                    <!-- Status Reference -->
+                    <div class="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-4 mt-2">
+                        <div class="flex items-center justify-between mb-3 text-slate-500">
+                            <span class="text-[10px] font-bold uppercase tracking-widest pl-1">Status Reference</span>
+                            <span class="material-symbols-outlined text-[16px]">info</span>
+                        </div>
+                        <div class="flex items-start gap-1 justify-between text-center">
+                            <!-- Normal -->
+                            <div class="flex-1 flex flex-col items-center gap-1.5">
+                                <div class="w-full h-1.5 bg-success rounded-full"></div>
+                                <span
+                                    class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase leading-[1.1]">Normal</span>
+                                <span
+                                    class="text-[8.5px] text-slate-500 font-medium leading-tight">&lt;120<br>&lt;80</span>
+                            </div>
+                            <!-- Elevated -->
+                            <div class="flex-1 flex flex-col items-center gap-1.5">
+                                <div class="w-full h-1.5 bg-warning rounded-full"></div>
+                                <span
+                                    class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase leading-[1.1]">Elevated</span>
+                                <span
+                                    class="text-[8.5px] text-slate-500 font-medium leading-tight">120-129<br>&lt;80</span>
+                            </div>
+                            <!-- Stage 1 -->
+                            <div class="flex-1 flex flex-col items-center gap-1.5">
+                                <div class="w-full h-1.5 bg-danger-1 rounded-full"></div>
+                                <span
+                                    class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase leading-[1.1]">Stage
+                                    1</span>
+                                <span
+                                    class="text-[8.5px] text-slate-500 font-medium leading-tight">130-139<br>80-89</span>
+                            </div>
+                            <!-- Stage 2 -->
+                            <div class="flex-1 flex flex-col items-center gap-1.5">
+                                <div class="w-full h-1.5 bg-danger-2 rounded-full"></div>
+                                <span
+                                    class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase leading-[1.1]">Stage
+                                    2</span>
+                                <span class="text-[8.5px] text-slate-500 font-medium leading-tight">140+<br>90+</span>
+                            </div>
+                            <!-- Crisis -->
+                            <div class="flex-1 flex flex-col items-center gap-1.5 opacity-80">
+                                <div class="w-full h-1.5 bg-crisis rounded-full"></div>
+                                <span
+                                    class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase leading-[1.1]">Crisis</span>
+                                <span
+                                    class="text-[8.5px] text-slate-500 font-medium leading-tight">&gt;180<br>&gt;120</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div
+                        class="flex flex-col gap-3 pb-8 mt-2 sticky bottom-0 bg-slate-900 pt-2 border-t border-slate-800/50">
+                        <button type="submit" id="save-reading-btn"
+                            class="w-full h-14 bg-gradient-to-r from-primary to-accent text-white font-bold text-lg rounded-xl shadow-lg shadow-primary/20 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">save</span>
+                            Save
+                        </button>
+                        <button type="button" onclick="window.appActions.closeModal()"
+                            class="w-full h-12 bg-transparent text-slate-400 font-medium text-base rounded-xl hover:bg-slate-800/50 transition-all focus:outline-none">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- MODAL: Add/Edit Profile -->
+        <div id="profileModal" class="fixed inset-0 z-[70] flex-col justify-end hidden">
+            <div class="absolute inset-0 bg-background-dark/80 backdrop-blur-sm"
+                onclick="window.appActions.closeProfileModal()"></div>
+
+            <div class="relative w-full bg-slate-900 border-t border-slate-700/50 rounded-t-2xl shadow-2xl overflow-y-auto modal-animate-enter"
+                style="max-h: 92vh;">
+                <div class="flex h-6 w-full items-center justify-center pt-2">
+                    <div class="h-1.5 w-12 rounded-full bg-slate-700"></div>
+                </div>
+
+                <div class="px-6 pt-4 pb-2 text-center">
+                    <h1 id="profile-modal-title" class="text-white text-2xl font-bold">New Profile</h1>
+                    <p id="profile-modal-subtitle" class="text-slate-400 text-sm">Add a family member or patient</p>
+                </div>
+
+                <form id="profile-form" onsubmit="window.appActions.saveProfile(event)"
+                    class="px-6 py-4 flex flex-col gap-4">
+                    <label class="flex flex-col gap-2">
+                        <span class="text-slate-400 text-sm font-medium ml-1">Full Name</span>
+                        <input id="profile-name" required type="text"
+                            class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                            placeholder="e.g. John Doe" />
+                    </label>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <label class="flex flex-col gap-2">
+                            <span class="text-slate-400 text-sm font-medium ml-1">Gender</span>
+                            <div class="relative">
+                                <select id="profile-gender" required
+                                    class="appearance-none w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all">
+                                    <option value="" disabled selected>Select...</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                                    <span class="material-symbols-outlined text-sm">expand_more</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="flex flex-col gap-2">
+                            <span class="text-slate-400 text-sm font-medium ml-1">Age</span>
+                            <input id="profile-age" required min="0" max="130" type="number"
+                                class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                                placeholder="Years" />
+                        </label>
+                    </div>
+
+                    <label class="flex flex-col gap-2">
+                        <span class="text-slate-400 text-sm font-medium ml-1">Weight (lbs) optional</span>
+                        <input id="profile-weight" type="number" step="0.1"
+                            class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                            placeholder="e.g. 150" />
+                    </label>
+
+                    <div class="flex flex-col gap-3 pb-8 mt-4">
+                        <button type="submit" id="save-profile-btn"
+                            class="w-full h-12 bg-gradient-to-r from-primary to-accent text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:brightness-110 active:scale-95 transition-all">
+                            Save Profile
+                        </button>
+                        <button type="button" onclick="window.appActions.closeProfileModal()"
+                            class="w-full h-12 bg-transparent text-slate-400 font-medium text-base rounded-xl hover:bg-slate-800/50 transition-all">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div> <!-- End Main App Wrapper -->
+
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
