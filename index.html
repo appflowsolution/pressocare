@@ -6,6 +6,10 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <title>PressoCare - Blood Pressure Tracker</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -60,10 +64,10 @@
             <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full -mr-16 -mt-16"></div>
             <div class="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 blur-3xl rounded-full -ml-16 -mb-16"></div>
 
-            <div class="text-center relative z-10 mb-8">
-                <span class="material-symbols-outlined text-primary text-5xl fill-1 mb-2">favorite</span>
-                <h1 class="text-2xl font-bold tracking-tight text-white mb-1">PressoCare</h1>
-                <p class="text-slate-400 text-sm">Sign in to sync your data</p>
+            <div class="text-center relative z-10 mb-8 flex flex-col items-center">
+                <img src="logo.png" alt="PressoCare Logo"
+                    class="w-64 max-w-[80vw] h-auto -mb-6 object-contain drop-shadow-2xl" />
+                <p class="text-slate-400 text-sm relative z-20">Sign in to sync your data</p>
             </div>
 
             <form id="auth-form" class="relative z-10 flex flex-col gap-4">
@@ -90,7 +94,7 @@
                 </button>
             </form>
 
-            <div class="mt-6 text-center relative z-10">
+            <div class="mt-6 text-center relative z-10 hidden">
                 <span class="text-slate-500 text-sm">Don't have an account?</span>
                 <button type="button" id="auth-toggle-btn"
                     class="text-primary font-bold ml-1 hover:underline focus:outline-none">Sign Up</button>
@@ -102,10 +106,9 @@
     <div id="main-app" class="hidden opacity-0 transition-opacity duration-300">
         <!-- Header -->
         <header
-            class="sticky top-0 z-20 glass-header px-4 pt-6 pb-4 border-b border-slate-800/50 flex flex-row items-center justify-between">
+            class="sticky top-0 z-20 glass-header px-4 pt-4 pb-3 border-b border-slate-800/50 flex flex-row items-center justify-between">
             <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary text-2xl fill-1">favorite</span>
-                <h1 class="text-lg font-bold tracking-tight text-white hidden sm:block">PressoCare</h1>
+                <img src="logo.png" alt="PressoCare Logo" class="h-11 w-auto object-contain" />
             </div>
 
             <!-- Active Profile Selector -->
@@ -165,7 +168,7 @@
         </main>
 
         <!-- TAB 2: Statistics (Home) -->
-        <main id="tab-stats" class="tab-content active px-6 mt-6 pb-48 hide-scrollbar">
+        <main id="tab-stats" class="tab-content active px-6 mt-6 pb-6 hide-scrollbar">
             <div class="mb-6 flex justify-between items-end">
                 <div>
                     <h2 class="text-2xl font-bold text-white">Home</h2>
