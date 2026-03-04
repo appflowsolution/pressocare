@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PressoCare Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#3ab9f8",
+                        "accent": "#8b5cf6",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0F172A",
+                        "card-dark": "#1E293B",
+                        "success": "#10b981",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            min-height: max(884px, 100dvh);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex flex-col">
+<header class="sticky top-0 z-20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 py-4 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl fill-1">favorite</span>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">PressoCare</h1>
+</div>
+<div class="flex gap-3">
+<button class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden border border-primary/20">
+<img alt="Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEMRsZrBDoyDoAilV4RUeMg14jwh17QXcOcqvuSAEaDGotz38J_cRboO8VquXvKkuSMuqpURqT_FKE9xHVWBrU62TGyTcZARN5lyow4G2RO9C7P5rrvNSwE1cnk6gBqpw8qOkeNpup4krJBjJlieVQI-TfCjwucDOX__mBDBs9zrIuodoveLCrRJa2PjqkbiIVlo7STK7K-rCK9QqmtHjJ2iF6s3vexeF5qJzRQO1BGWLERc6TxbjIw7A1GYHsuBSrtNreWl84X46q"/>
+</div>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto px-6 pb-24 hide-scrollbar">
+<div class="mt-6 mb-8">
+<h2 class="text-2xl font-bold">Good morning, Alex</h2>
+<p class="text-slate-500 dark:text-slate-400">Your health stats are looking stable today.</p>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-xl p-6 shadow-sm border-l-4 border-success relative overflow-hidden mb-6">
+<div class="absolute top-0 right-0 p-4">
+<span class="px-2 py-1 bg-success/10 text-success text-xs font-bold rounded uppercase tracking-wider">Normal</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1">Blood Pressure</p>
+<div class="flex items-baseline gap-2">
+<span class="text-5xl font-black text-slate-900 dark:text-white">120/80</span>
+<span class="text-slate-400 dark:text-slate-500 font-medium">mmHg</span>
+</div>
+<div class="mt-4 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>Measured 2 hours ago</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="bg-white dark:bg-card-dark rounded-xl p-5 shadow-sm border-l-4 border-success">
+<div class="flex justify-between items-start mb-2">
+<span class="material-symbols-outlined text-primary">ecg</span>
+<span class="text-success text-xs font-bold">Normal</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Pulse Rate</p>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="text-2xl font-bold">72</span>
+<span class="text-slate-400 text-xs">bpm</span>
+</div>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-xl p-5 shadow-sm border-l-4 border-success">
+<div class="flex justify-between items-start mb-2">
+<span class="material-symbols-outlined text-primary">water_drop</span>
+<span class="text-success text-xs font-bold">Normal</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Blood Oxygen</p>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="text-2xl font-bold">98</span>
+<span class="text-slate-400 text-xs">%</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-xl p-6 shadow-sm mb-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-bold text-lg">Weekly Pressure Trends</h3>
+<select class="bg-transparent border-none text-primary text-sm font-medium focus:ring-0 cursor-pointer">
+<option>Last 7 Days</option>
+<option>Last Month</option>
+</select>
+</div>
+<div class="relative h-48 w-full flex items-end justify-between px-2">
+<div class="absolute inset-0 flex flex-col justify-between py-2 border-b border-slate-100 dark:border-slate-800 pointer-events-none">
+<div class="border-t border-slate-100 dark:border-slate-800 w-full opacity-50"></div>
+<div class="border-t border-slate-100 dark:border-slate-800 w-full opacity-50"></div>
+<div class="border-t border-slate-100 dark:border-slate-800 w-full opacity-50"></div>
+</div>
+<div class="absolute inset-0 z-10">
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+<defs>
+<linearGradient id="lineGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#3ab9f8" stop-opacity="1"></stop>
+<stop offset="100%" stop-color="#8b5cf6" stop-opacity="1"></stop>
+</linearGradient>
+<linearGradient id="areaGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#3ab9f8" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<path d="M0,70 Q15,50 30,65 T60,40 T90,55 L100,50 L100,100 L0,100 Z" fill="url(#areaGradient)"></path>
+<path d="M0,70 Q15,50 30,65 T60,40 T90,55 L100,50" fill="none" stroke="url(#lineGradient)" stroke-linecap="round" stroke-width="2"></path>
+<circle class="drop-shadow-sm" cx="30" cy="65" fill="white" r="2"></circle>
+<circle class="drop-shadow-sm" cx="60" cy="40" fill="white" r="2"></circle>
+</svg>
+</div>
+<div class="absolute bottom-[-24px] w-full flex justify-between text-[10px] text-slate-400 font-medium uppercase tracking-tighter">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+<span>Sat</span>
+<span>Sun</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-4 mb-4">
+<h3 class="font-bold text-lg">Recommended Activity</h3>
+<div class="bg-primary/10 rounded-xl p-4 flex items-center gap-4">
+<div class="bg-primary text-white p-3 rounded-full">
+<span class="material-symbols-outlined">directions_walk</span>
+</div>
+<div>
+<h4 class="font-bold text-primary">Daily Goal: 8,000 steps</h4>
+<p class="text-sm text-slate-600 dark:text-slate-400">You've completed 62% of your goal.</p>
+</div>
+</div>
+</div>
+</main>
+<button class="fixed bottom-24 right-6 z-30 w-14 h-14 bg-gradient-to-br from-primary to-accent rounded-full shadow-lg shadow-primary/30 flex items-center justify-center text-white active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<nav class="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-card-dark/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-6 py-2 pb-8 flex justify-between items-center z-40">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">home</span>
+<span class="text-[10px] font-bold uppercase tracking-wide">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-[10px] font-bold uppercase tracking-wide">Trends</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">event_note</span>
+<span class="text-[10px] font-bold uppercase tracking-wide">Log</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold uppercase tracking-wide">Profile</span>
+</a>
+</nav>
+
+</body></html>
