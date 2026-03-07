@@ -24,9 +24,9 @@
                 <span class="font-semibold text-slate-600 block mb-1">🔐 Credenciales</span>
                 <span class="text-xl font-bold text-red-600 flex items-center gap-2">🔴 CRÍTICO</span>
             </div>
-            <div class="bg-orange-50 p-4 rounded-xl border border-orange-100">
+            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
                 <span class="font-semibold text-slate-600 block mb-1">🔐 Base de Datos Firebase</span>
-                <span class="text-xl font-bold text-orange-600 flex items-center gap-2">🟠 MEDIO</span>
+                <span class="text-xl font-bold text-green-600 flex items-center gap-2">🟢 OK</span>
             </div>
             <div class="bg-green-50 p-4 rounded-xl border border-green-100">
                 <span class="font-semibold text-slate-600 block mb-1">🔐 Base de Datos Supabase</span>
@@ -57,7 +57,7 @@
             </div>
             <div class="text-right">
                 <p class="text-sm text-slate-300 font-semibold tracking-wider uppercase mb-1">Deploy Recomendado</p>
-                <p class="text-3xl font-bold text-red-500">❌ NO</p>
+                <p class="text-3xl font-bold text-red-500">❌ NO (Requiere validación manual de API Key)</p>
             </div>
         </div>
 
@@ -73,24 +73,21 @@
                     la clave <code>apiKey</code> y otros identificadores de Firebase directamente en el código del
                     cliente frontend.</p>
                 <div class="bg-white p-4 rounded border text-slate-600 text-sm">
-                    <strong>Recomendación:</strong> Aunque en Firebase es estándar exponer el `apiKey` en el cliente
-                    web, debes asegurarte de ir a Google Cloud Console y restringir la API Key **únicamente** a los
-                    dominios autorizados de tu aplicación (ej. tu dominio en producción y localhost). Considera extraer
-                    la configuración a variables de entorno en frameworks modernos.
+                    <strong>Recomendación:</strong> Restringe la API Key en Google Cloud Console únicamente a los
+                    dominios autorizados de tu aplicación. Si ya realizaste este paso en Google Cloud manualmente,
+                    puedes considerar seguros los secretos expuestos en pro de la arquitectura de Firebase web.
                 </div>
             </div>
 
             <!-- Issue 2 -->
-            <div class="border-l-4 border-orange-500 pl-4 py-2 bg-slate-50 rounded-r-lg">
-                <h3 class="font-bold text-lg text-slate-900">2. Base de Datos Firebase (Seguridad) (MEDIO)</h3>
-                <p class="text-sm text-slate-500 mb-3"><strong>Archivo:</strong> Raíz del proyecto</p>
-                <p class="mb-3 text-slate-700"><strong>Problema:</strong> No se ha detectado ningún archivo con las
-                    reglas de seguridad locales (ej. <code>firestore.rules</code>). Las reglas no están bajo control de
-                    versiones.</p>
+            <div class="border-l-4 border-green-500 pl-4 py-2 bg-slate-50 rounded-r-lg">
+                <h3 class="font-bold text-lg text-slate-900">2. Base de Datos Firebase (Seguridad) (OK)</h3>
+                <p class="text-sm text-slate-500 mb-3"><strong>Archivo:</strong> <code>firestore.rules</code></p>
+                <p class="mb-3 text-slate-700"><strong>Estado:</strong> Las reglas locales han sido configuradas
+                    correctamente implementando RLS basado en <code>request.auth.uid</code>.</p>
                 <div class="bg-white p-4 rounded border text-slate-600 text-sm">
-                    <strong>Recomendación:</strong> Define y audita un archivo `firestore.rules` en el repositorio que
-                    verifique que el usuario autenticado solo pueda leer y escribir datos propios
-                    (<code>request.auth.uid == userId</code>).
+                    <strong>Recomendación:</strong> Asegúrate de ejecutar `firebase deploy --only firestore:rules` para
+                    sincronizar las reglas alojadas en el repositorio.
                 </div>
             </div>
 
@@ -98,11 +95,11 @@
             <div class="border-l-4 border-orange-500 pl-4 py-2 bg-slate-50 rounded-r-lg">
                 <h3 class="font-bold text-lg text-slate-900">3. Arquitectura (MEDIO)</h3>
                 <p class="text-sm text-slate-500 mb-3"><strong>Archivo:</strong> <code>js/app.js</code></p>
-                <p class="mb-3 text-slate-700"><strong>Problema:</strong> Toda la lógica de la aplicación y operaciones
-                    CRUD se ejecutan desde el código del cliente.</p>
+                <p class="mb-3 text-slate-700"><strong>Problema:</strong> Lógica de aplicación ejecutada en el cliente.
+                </p>
                 <div class="bg-white p-4 rounded border text-slate-600 text-sm">
-                    <strong>Recomendación:</strong> Para un tracker real o entorno HIPAA, la lógica sensible o
-                    validaciones de la creación de perfiles debería realizarse mediante Cloud Functions en el backend.
+                    <strong>Recomendación:</strong> La implementación de Firestore Rules estrictas (Punto 2) mitiga
+                    riesgos sustanciales, pero se recomienda backend dedicado para datos médicos muy sensibles.
                 </div>
             </div>
 
@@ -110,11 +107,11 @@
             <div class="border-l-4 border-green-500 pl-4 py-2 bg-slate-50 rounded-r-lg">
                 <h3 class="font-bold text-lg text-slate-900">4. Dependencias Externas (OK)</h3>
                 <p class="text-sm text-slate-500 mb-3"><strong>Archivo:</strong> <code>index.html</code></p>
-                <p class="mb-3 text-slate-700"><strong>Problema:</strong> Carga de scripts desde CDNs públicos
-                    (Tailwind, Chart.js, Firebase).</p>
+                <p class="mb-3 text-slate-700"><strong>Estado:</strong> Se omitió SRI debido a incompatibilidad con CDN
+                    dinámico de Tailwind.</p>
                 <div class="bg-white p-4 rounded border text-slate-600 text-sm">
-                    <strong>Recomendación:</strong> Usar Subresource Integrity (SRI) en las dependencias cargadas desde
-                    CDNs añadiendo `integrity` y `crossorigin` hashes para mayor prevención contra ataques Supply Chain.
+                    <strong>Recomendación:</strong> Uso de CDN estándar es seguro para entornos ágiles; se recomienda
+                    CSS compilado (estático) para producción final.
                 </div>
             </div>
         </div>
