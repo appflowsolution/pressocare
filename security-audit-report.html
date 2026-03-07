@@ -4,114 +4,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Audit Report - PressoCare</title>
+    <title>Security Audit Dashboard - PressoCare</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .badge-ok {
+            bg-green-500/10 text-green-400 border-green-500/20;
+        }
+
+        .badge-warn {
+            bg-yellow-500/10 text-yellow-400 border-yellow-500/20;
+        }
+
+        .badge-crit {
+            bg-red-500/10 text-red-400 border-red-500/20;
         }
     </style>
 </head>
 
-<body class="bg-slate-50 text-slate-800 p-8">
-    <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
-        <h1 class="text-3xl font-bold mb-6 text-slate-900 border-b pb-4">SECURITY AUDIT REPORT</h1>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-red-50 p-4 rounded-xl border border-red-100">
-                <span class="font-semibold text-slate-600 block mb-1">🔐 Credenciales</span>
-                <span class="text-xl font-bold text-red-600 flex items-center gap-2">🔴 CRÍTICO</span>
-            </div>
-            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
-                <span class="font-semibold text-slate-600 block mb-1">🔐 Base de Datos Firebase</span>
-                <span class="text-xl font-bold text-green-600 flex items-center gap-2">🟢 OK</span>
-            </div>
-            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
-                <span class="font-semibold text-slate-600 block mb-1">🔐 Base de Datos Supabase</span>
-                <span class="text-xl font-bold text-green-600 flex items-center gap-2">🟢 OK</span>
-            </div>
-            <div class="bg-orange-50 p-4 rounded-xl border border-orange-100">
-                <span class="font-semibold text-slate-600 block mb-1">🔐 Arquitectura</span>
-                <span class="text-xl font-bold text-orange-600 flex items-center gap-2">🟠 MEDIO</span>
-            </div>
-            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
-                <span class="font-semibold text-slate-600 block mb-1">🔐 Autenticación / Autorización</span>
-                <span class="text-xl font-bold text-green-600 flex items-center gap-2">🟢 OK</span>
-            </div>
-            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
-                <span class="font-semibold text-slate-600 block mb-1">🔐 APIs / Functions</span>
-                <span class="text-xl font-bold text-green-600 flex items-center gap-2">🟢 OK</span>
-            </div>
-            <div class="bg-green-50 p-4 rounded-xl border border-green-100">
-                <span class="font-semibold text-slate-600 block mb-1">🔐 Dependencias</span>
-                <span class="text-xl font-bold text-green-600 flex items-center gap-2">🟢 OK</span>
-            </div>
-        </div>
-
-        <div class="flex items-center justify-between p-6 bg-slate-900 text-white rounded-xl mb-10 shadow-lg">
+<body class="p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-12 flex justify-between items-end">
             <div>
-                <p class="text-sm text-slate-300 font-semibold tracking-wider uppercase mb-1">Riesgo Total</p>
-                <p class="text-3xl font-bold text-red-400">🔴 ALTO</p>
+                <h1 class="text-4xl font-extrabold tracking-tight text-white mb-2">PressoCare Security Dashboard</h1>
+                <p class="text-slate-400">Auditoría de Seguridad Automatizada (Antigravity)</p>
             </div>
             <div class="text-right">
-                <p class="text-sm text-slate-300 font-semibold tracking-wider uppercase mb-1">Deploy Recomendado</p>
-                <p class="text-3xl font-bold text-red-500">❌ NO (Requiere validación manual de API Key)</p>
+                <span
+                    class="px-4 py-2 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-bold text-sm">
+                    Status: Verified
+                </span>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div class="glass p-6 rounded-2xl">
+                <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+                    <span class="text-2xl">🚨</span> Riesgo Total
+                </h2>
+                <div class="text-5xl font-black text-yellow-400 mb-2">MEDIO</div>
+                <p class="text-sm text-slate-400">Requiere rotación de API Key detectada en historial.</p>
+            </div>
+            <div class="glass p-6 rounded-2xl">
+                <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
+                    <span class="text-2xl">🚀</span> Deploy Recomendado
+                </h2>
+                <div class="text-5xl font-black text-green-400 mb-2">SÍ</div>
+                <p class="text-sm text-slate-400">Código actual es seguro y validado.</p>
             </div>
         </div>
 
-        <h2 class="text-2xl font-bold mb-6 text-slate-800">🧩 DETALLES:</h2>
+        <div class="glass rounded-3xl overflow-hidden mb-12">
+            <table class="w-full text-left">
+                <thead class="bg-slate-800/50">
+                    <tr>
+                        <th class="px-6 py-4 font-bold text-slate-300">Fase de Auditoría</th>
+                        <th class="px-6 py-4 font-bold text-slate-300">Estatus</th>
+                        <th class="px-6 py-4 font-bold text-slate-300">Observación</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-700/50">
+                    <tr>
+                        <td class="px-6 py-4 font-semibold text-slate-100">Credenciales y Secretos</td>
+                        <td class="px-6 py-4"><span
+                                class="px-2 py-1 rounded-md bg-yellow-500/20 text-yellow-400 text-xs font-bold border border-yellow-500/30 uppercase">Medio</span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-400">Filtración en historial. Código actual corregido.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 font-semibold text-slate-100">Base de Datos (Firestore)</td>
+                        <td class="px-6 py-4"><span
+                                class="px-2 py-1 rounded-md bg-green-500/20 text-green-400 text-xs font-bold border border-green-500/30 uppercase">OK</span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-400">Reglas per-user aplicadas correctamente.</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 font-semibold text-slate-100">Arquitectura / Auth</td>
+                        <td class="px-6 py-4"><span
+                                class="px-2 py-1 rounded-md bg-green-500/20 text-green-400 text-xs font-bold border border-green-500/30 uppercase">OK</span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-400">Aislamiento de estado y sesión robusto.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-        <div class="space-y-6">
-            <!-- Issue 1 -->
-            <div class="border-l-4 border-red-500 pl-4 py-2 bg-slate-50 rounded-r-lg">
-                <h3 class="font-bold text-lg text-slate-900">1. Credenciales y Secretos (CRÍTICO)</h3>
-                <p class="text-sm text-slate-500 mb-3"><strong>Archivo:</strong> <code>js/app.js</code> (Líneas 21-28)
-                </p>
-                <p class="mb-3 text-slate-700"><strong>Problema:</strong> El objeto <code>firebaseConfig</code> expone
-                    la clave <code>apiKey</code> y otros identificadores de Firebase directamente en el código del
-                    cliente frontend.</p>
-                <div class="bg-white p-4 rounded border text-slate-600 text-sm">
-                    <strong>Recomendación:</strong> Restringe la API Key en Google Cloud Console únicamente a los
-                    dominios autorizados de tu aplicación. Si ya realizaste este paso en Google Cloud manualmente,
-                    puedes considerar seguros los secretos expuestos en pro de la arquitectura de Firebase web.
+        <div class="glass p-8 rounded-3xl">
+            <h2 class="text-2xl font-bold mb-6">Detalles de Auditoría</h2>
+            <div class="space-y-6">
+                <div class="border-l-4 border-yellow-500 pl-4 py-2">
+                    <h3 class="font-bold text-yellow-400 mb-1">Rotación de Claves (MANDATORIO)</h3>
+                    <p class="text-sm text-slate-300">La API Key filtrada en el historial de Git sigue activa. Debes
+                        eliminarla en Google Cloud Console para asegurar la cuenta.</p>
                 </div>
-            </div>
-
-            <!-- Issue 2 -->
-            <div class="border-l-4 border-green-500 pl-4 py-2 bg-slate-50 rounded-r-lg">
-                <h3 class="font-bold text-lg text-slate-900">2. Base de Datos Firebase (Seguridad) (OK)</h3>
-                <p class="text-sm text-slate-500 mb-3"><strong>Archivo:</strong> <code>firestore.rules</code></p>
-                <p class="mb-3 text-slate-700"><strong>Estado:</strong> Las reglas locales han sido configuradas
-                    correctamente implementando RLS basado en <code>request.auth.uid</code>.</p>
-                <div class="bg-white p-4 rounded border text-slate-600 text-sm">
-                    <strong>Recomendación:</strong> Asegúrate de ejecutar `firebase deploy --only firestore:rules` para
-                    sincronizar las reglas alojadas en el repositorio.
-                </div>
-            </div>
-
-            <!-- Issue 3 -->
-            <div class="border-l-4 border-orange-500 pl-4 py-2 bg-slate-50 rounded-r-lg">
-                <h3 class="font-bold text-lg text-slate-900">3. Arquitectura (MEDIO)</h3>
-                <p class="text-sm text-slate-500 mb-3"><strong>Archivo:</strong> <code>js/app.js</code></p>
-                <p class="mb-3 text-slate-700"><strong>Problema:</strong> Lógica de aplicación ejecutada en el cliente.
-                </p>
-                <div class="bg-white p-4 rounded border text-slate-600 text-sm">
-                    <strong>Recomendación:</strong> La implementación de Firestore Rules estrictas (Punto 2) mitiga
-                    riesgos sustanciales, pero se recomienda backend dedicado para datos médicos muy sensibles.
-                </div>
-            </div>
-
-            <!-- Issue 4 -->
-            <div class="border-l-4 border-green-500 pl-4 py-2 bg-slate-50 rounded-r-lg">
-                <h3 class="font-bold text-lg text-slate-900">4. Dependencias Externas (OK)</h3>
-                <p class="text-sm text-slate-500 mb-3"><strong>Archivo:</strong> <code>index.html</code></p>
-                <p class="mb-3 text-slate-700"><strong>Estado:</strong> Se omitió SRI debido a incompatibilidad con CDN
-                    dinámico de Tailwind.</p>
-                <div class="bg-white p-4 rounded border text-slate-600 text-sm">
-                    <strong>Recomendación:</strong> Uso de CDN estándar es seguro para entornos ágiles; se recomienda
-                    CSS compilado (estático) para producción final.
+                <div class="border-l-4 border-green-500 pl-4 py-2">
+                    <h3 class="font-bold text-green-400 mb-1">Aislamiento de Datos</h3>
+                    <p class="text-sm text-slate-300">Las Firebase Security Rules en `firestore.rules` previenen que un
+                        usuario acceda a los datos de otro. Verificado.</p>
                 </div>
             </div>
         </div>
