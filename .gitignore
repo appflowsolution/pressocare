@@ -1,0 +1,6 @@
+node_modules/
+.firebase/
+.firebaserc
+js/firebase-config.js
+*.bat
+.DS_Store

@@ -18,14 +18,7 @@ import {
     orderBy
 } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyCMgoC1JY18qfdaM-NQgjM9hkxSZs5_B80",
-    authDomain: "pressocare-15b7d.firebaseapp.com",
-    projectId: "pressocare-15b7d",
-    storageBucket: "pressocare-15b7d.firebasestorage.app",
-    messagingSenderId: "607877875266",
-    appId: "1:607877875266:web:6c8b605fe2905cec7fcfdb"
-};
+import { firebaseConfig } from './firebase-config.js';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
