@@ -247,14 +247,14 @@ function renderProfilesTab() {
         const pLogs = allLogs.filter(l => l.profileId === p.id).length;
 
         listEl.innerHTML += `
-        <div class="bg-card-dark p-4 rounded-xl border border-slate-800/60 card-shadow flex items-center justify-between">
+        <div class="bg-white dark:bg-card-dark p-4 rounded-xl border border-slate-100 dark:border-slate-800/60 card-shadow flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-lg">
                     ${p.name.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                    <h3 class="font-bold text-white">${p.name}</h3>
-                    <p class="text-xs text-slate-400 mt-0.5">${p.gender || 'N/A'} • ${p.age ? p.age + ' yrs' : 'Age N/A'}</p>
+                    <h3 class="font-bold text-slate-900 dark:text-white">${p.name}</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">${p.gender || 'N/A'} • ${p.age ? p.age + ' yrs' : 'Age N/A'}</p>
                     <p class="text-[10px] text-primary mt-1">${pLogs} records</p>
                 </div>
             </div>
@@ -305,42 +305,42 @@ function renderHistory() {
             else if (status.key === 'fase1') dashOffset = 70;
             else if (status.key === 'elevated') dashOffset = 95;
             cardHtml = `
-            <div class="bg-card-dark p-4 rounded-[20px] border border-slate-800/60 flex items-center justify-between card-shadow relative overflow-hidden">
+            <div class="bg-white dark:bg-card-dark p-4 rounded-[20px] border border-slate-100 dark:border-slate-800/60 flex items-center justify-between card-shadow relative overflow-hidden">
                 <div class="absolute left-0 top-0 bottom-0 w-1 ${status.bg.replace('/20', '')}"></div>
                 <div class="flex items-center gap-3 pl-2">
                     <div class="relative w-10 h-10">
-                        <svg class="w-full h-full -rotate-90"><circle cx="50%" cy="50%" fill="transparent" r="45%" stroke="rgba(255,255,255,0.05)" stroke-width="4"></circle><circle cx="50%" cy="50%" fill="transparent" r="45%" class="${status.ring}" stroke-dasharray="138" stroke-dashoffset="${dashOffset}" stroke-linecap="round" stroke-width="4"></circle></svg>
+                        <svg class="w-full h-full -rotate-90"><circle cx="50%" cy="50%" fill="transparent" r="45%" stroke="rgba(0,0,0,0.07)" stroke-width="4"></circle><circle cx="50%" cy="50%" fill="transparent" r="45%" class="${status.ring}" stroke-dasharray="138" stroke-dashoffset="${dashOffset}" stroke-linecap="round" stroke-width="4"></circle></svg>
                         <div class="absolute inset-0 flex items-center justify-center"><span class="text-[11px] font-bold ${status.color}">${log.pulse}</span></div>
                     </div>
                     <div>
                         <div class="flex items-baseline gap-1">
-                            <span class="text-lg font-bold text-white leading-none">${log.sys}/${log.dia}</span>
+                            <span class="text-lg font-bold text-slate-900 dark:text-white leading-none">${log.sys}/${log.dia}</span>
                             <span class="text-[10px] text-slate-500 uppercase">mmHg</span>
                         </div>
                         <div class="flex flex-col gap-1 mt-1">
                             <div class="flex items-center gap-1.5">
-                                <p class="text-[11px] text-slate-400">${formatDateTime(log.datetime)}</p>
-                                <span class="text-[9px] bg-slate-800/80 px-1.5 py-0.5 rounded text-slate-300 font-bold border border-slate-700/50">${profileName}</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">${formatDateTime(log.datetime)}</p>
+                                <span class="text-[9px] bg-slate-100 dark:bg-slate-800/80 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700/50">${profileName}</span>
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <span class="text-[9px] bg-primary/10 px-1.5 py-0.5 rounded text-primary font-bold border border-primary/20">BP</span>
                             </div>
                         </div>
-                        ${log.notes ? `<p class="text-[10px] text-slate-500 mt-1 italic truncate max-w-[160px]">${log.notes}</p>` : ''}
+                        ${log.notes ? `<p class="text-[10px] text-slate-400 mt-1 italic truncate max-w-[160px]">${log.notes}</p>` : ''}
                     </div>
                 </div>
                 <div class="flex flex-col items-end gap-2">
                     <span class="text-[9px] font-black ${status.color} uppercase border ${status.border} ${status.bg} px-2 py-0.5 rounded-full whitespace-nowrap">${status.label}</span>
                     <div class="flex gap-1">
-                        <button onclick="window.appActions.editLog('${log.id}')" class="p-1 text-slate-600 hover:text-primary transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">edit</span></button>
-                        <button onclick="window.appActions.deleteLog('${log.id}')" class="p-1 text-slate-600 hover:text-danger-2 transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                        <button onclick="window.appActions.editLog('${log.id}')" class="p-1 text-slate-400 hover:text-primary transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                        <button onclick="window.appActions.deleteLog('${log.id}')" class="p-1 text-slate-400 hover:text-danger-2 transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">delete</span></button>
                     </div>
                 </div>
             </div>`;
         } else if (logType === 'glucose') {
             const gs = getGlucoseStatus(log.value, log.meal);
             cardHtml = `
-            <div class="bg-card-dark p-4 rounded-[20px] border border-slate-800/60 flex items-center justify-between card-shadow relative overflow-hidden">
+            <div class="bg-white dark:bg-card-dark p-4 rounded-[20px] border border-slate-100 dark:border-slate-800/60 flex items-center justify-between card-shadow relative overflow-hidden">
                 <div class="absolute left-0 top-0 bottom-0 w-1 bg-success"></div>
                 <div class="flex items-center gap-3 pl-2">
                     <div class="w-10 h-10 rounded-full bg-success/10 border border-success/30 flex items-center justify-center">
@@ -348,33 +348,33 @@ function renderHistory() {
                     </div>
                     <div>
                         <div class="flex items-baseline gap-1">
-                            <span class="text-lg font-bold text-white leading-none">${log.value}</span>
+                            <span class="text-lg font-bold text-slate-900 dark:text-white leading-none">${log.value}</span>
                             <span class="text-[10px] text-slate-500 uppercase">mg/dL</span>
                         </div>
                         <div class="flex flex-col gap-1 mt-1">
                             <div class="flex items-center gap-1.5">
-                                <p class="text-[11px] text-slate-400">${formatDateTime(log.datetime)}</p>
-                                <span class="text-[9px] bg-slate-800/80 px-1.5 py-0.5 rounded text-slate-300 font-bold border border-slate-700/50">${profileName}</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">${formatDateTime(log.datetime)}</p>
+                                <span class="text-[9px] bg-slate-100 dark:bg-slate-800/80 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700/50">${profileName}</span>
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <span class="text-[9px] bg-success/10 px-1.5 py-0.5 rounded text-success font-bold border border-success/20">Glucose</span>
-                                ${log.meal ? `<span class="text-[9px] bg-slate-700/50 px-1.5 py-0.5 rounded text-slate-400 font-medium capitalize">${log.meal}</span>` : ''}
+                                ${log.meal ? `<span class="text-[9px] bg-slate-100 dark:bg-slate-700/50 px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-400 font-medium capitalize">${log.meal}</span>` : ''}
                             </div>
                         </div>
-                        ${log.notes ? `<p class="text-[10px] text-slate-500 mt-1 italic truncate max-w-[160px]">${log.notes}</p>` : ''}
+                        ${log.notes ? `<p class="text-[10px] text-slate-400 mt-1 italic truncate max-w-[160px]">${log.notes}</p>` : ''}
                     </div>
                 </div>
                 <div class="flex flex-col items-end gap-2">
                     <span class="text-[9px] font-black ${gs.color} uppercase border ${gs.border} ${gs.bg} px-2 py-0.5 rounded-full whitespace-nowrap">${gs.label}</span>
                     <div class="flex gap-1">
-                        <button onclick="window.appActions.editLog('${log.id}')" class="p-1 text-slate-600 hover:text-primary transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">edit</span></button>
-                        <button onclick="window.appActions.deleteLog('${log.id}')" class="p-1 text-slate-600 hover:text-danger-2 transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                        <button onclick="window.appActions.editLog('${log.id}')" class="p-1 text-slate-400 hover:text-primary transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                        <button onclick="window.appActions.deleteLog('${log.id}')" class="p-1 text-slate-400 hover:text-danger-2 transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">delete</span></button>
                     </div>
                 </div>
             </div>`;
         } else if (logType === 'weight') {
             cardHtml = `
-            <div class="bg-card-dark p-4 rounded-[20px] border border-slate-800/60 flex items-center justify-between card-shadow relative overflow-hidden">
+            <div class="bg-white dark:bg-card-dark p-4 rounded-[20px] border border-slate-100 dark:border-slate-800/60 flex items-center justify-between card-shadow relative overflow-hidden">
                 <div class="absolute left-0 top-0 bottom-0 w-1 bg-accent"></div>
                 <div class="flex items-center gap-3 pl-2">
                     <div class="w-10 h-10 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center">
@@ -382,24 +382,24 @@ function renderHistory() {
                     </div>
                     <div>
                         <div class="flex items-baseline gap-1">
-                            <span class="text-lg font-bold text-white leading-none">${parseFloat(log.value).toFixed(1)}</span>
+                            <span class="text-lg font-bold text-slate-900 dark:text-white leading-none">${parseFloat(log.value).toFixed(1)}</span>
                             <span class="text-[10px] text-slate-500 uppercase">lbs</span>
                         </div>
                         <div class="flex flex-col gap-1 mt-1">
                             <div class="flex items-center gap-1.5">
-                                <p class="text-[11px] text-slate-400">${formatDateTime(log.datetime)}</p>
-                                <span class="text-[9px] bg-slate-800/80 px-1.5 py-0.5 rounded text-slate-300 font-bold border border-slate-700/50">${profileName}</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400">${formatDateTime(log.datetime)}</p>
+                                <span class="text-[9px] bg-slate-100 dark:bg-slate-800/80 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700/50">${profileName}</span>
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <span class="text-[9px] bg-accent/10 px-1.5 py-0.5 rounded text-accent font-bold border border-accent/20">Weight</span>
                             </div>
                         </div>
-                        ${log.notes ? `<p class="text-[10px] text-slate-500 mt-1 italic truncate max-w-[160px]">${log.notes}</p>` : ''}
+                        ${log.notes ? `<p class="text-[10px] text-slate-400 mt-1 italic truncate max-w-[160px]">${log.notes}</p>` : ''}
                     </div>
                 </div>
                 <div class="flex gap-1">
-                    <button onclick="window.appActions.editLog('${log.id}')" class="p-1 text-slate-600 hover:text-primary transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">edit</span></button>
-                    <button onclick="window.appActions.deleteLog('${log.id}')" class="p-1 text-slate-600 hover:text-danger-2 transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+                    <button onclick="window.appActions.editLog('${log.id}')" class="p-1 text-slate-400 hover:text-primary transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                    <button onclick="window.appActions.deleteLog('${log.id}')" class="p-1 text-slate-400 hover:text-danger-2 transition-colors rounded-full focus:outline-none"><span class="material-symbols-outlined text-[18px]">delete</span></button>
                 </div>
             </div>`;
         }
@@ -456,10 +456,10 @@ function renderStats() {
             distHtml += `
             <div class="flex items-center gap-3">
                 <div class="w-16 text-[10px] font-bold ${distLabels[key].text} uppercase">${distLabels[key].label}</div>
-                <div class="flex-1 h-2 rounded-full bg-slate-800 overflow-hidden">
+                <div class="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
                     <div class="h-full ${distLabels[key].color} rounded-full" style="width: ${percent}%"></div>
                 </div>
-                <div class="w-8 text-right text-xs text-slate-400 font-bold">${percent}%</div>
+                <div class="w-8 text-right text-xs text-slate-500 dark:text-slate-400 font-bold">${percent}%</div>
             </div>`;
         }
     });
@@ -753,12 +753,19 @@ window.appActions = {
     setChartTimeframe: function (tf) {
         chartTimeframe = tf;
 
-        const inactiveClass = "px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-400 hover:text-white transition-colors focus:outline-none";
-        const activeClass = "px-3 py-1 text-[10px] font-bold uppercase rounded-md bg-slate-700 text-white shadow-sm transition-colors focus:outline-none";
+        const inactiveClass = "px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-500 dark:text-slate-400 hover:text-primary transition-colors focus:outline-none";
+        const activeClass = "chart-filter-active px-3 py-1 text-[10px] font-bold uppercase rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-white shadow-sm transition-colors focus:outline-none";
 
         ['7d', '30d', 'all'].forEach(val => {
-            const btn = document.getElementById(`chart-filter-${val}`);
-            if (btn) btn.className = val === tf ? activeClass : inactiveClass;
+            // Update BP chart filters
+            const bpBtn = document.getElementById(`chart-filter-${val}`);
+            if (bpBtn) bpBtn.className = val === tf ? activeClass : inactiveClass;
+            // Update glucose chart filters
+            const gluBtn = document.getElementById(`glu-filter-${val}`);
+            if (gluBtn) gluBtn.className = val === tf ? activeClass : inactiveClass;
+            // Update weight chart filters
+            const wtBtn = document.getElementById(`wt-filter-${val}`);
+            if (wtBtn) wtBtn.className = val === tf ? activeClass : inactiveClass;
         });
 
         updateChart();
@@ -793,7 +800,7 @@ window.appActions = {
                 btn.className = `flex-1 py-2 text-[11px] font-bold uppercase rounded-lg bg-${c}/20 text-${c} border border-${c}/30 transition-all focus:outline-none flex items-center justify-center gap-1`;
                 panel.classList.remove('hidden');
             } else {
-                btn.className = 'flex-1 py-2 text-[11px] font-bold uppercase rounded-lg text-slate-400 hover:text-white transition-all focus:outline-none flex items-center justify-center gap-1';
+                btn.className = 'flex-1 py-2 text-[11px] font-bold uppercase rounded-lg text-slate-500 dark:text-slate-400 hover:text-primary transition-all focus:outline-none flex items-center justify-center gap-1';
                 panel.classList.add('hidden');
             }
         });
@@ -1120,5 +1127,32 @@ window.appActions = {
         }
     },
 
-    signOutUser: async function () { await signOut(auth); }
+    signOutUser: async function () { await signOut(auth); },
+
+    toggleTheme: function () {
+        const html = document.documentElement;
+        const icon = document.getElementById('theme-icon');
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            if (icon) icon.textContent = 'dark_mode';
+        } else {
+            html.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            if (icon) icon.textContent = 'light_mode';
+        }
+    },
+
+    initTheme: function () {
+        const icon = document.getElementById('theme-icon');
+        const isDark = document.documentElement.classList.contains('dark');
+        if (icon) icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+    }
 };
+
+// Initialize theme icon state after DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => window.appActions.initTheme());
+} else {
+    window.appActions.initTheme();
+}

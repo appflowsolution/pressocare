@@ -2,36 +2,159 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ================================================
+   THEME TOKENS — Light (default) & Dark
+   ================================================ */
+:root {
+    /* Backgrounds */
+    --color-bg: #fdfcfb;
+    --color-surface: #ffffff;
+    --color-surface-alt: #f1f5f9;
+    --color-surface-2: #e8edf2;
+
+    /* Text */
+    --color-text: #1e293b;
+    --color-text-muted: #64748b;
+    --color-text-faint: #94a3b8;
+
+    /* Borders */
+    --color-border: rgba(0, 0, 0, 0.08);
+    --color-border-soft: rgba(0, 0, 0, 0.05);
+
+    /* Misc */
+    --color-header-bg: rgba(253, 252, 251, 0.85);
+    --card-shadow-val: 0 2px 16px rgba(0, 0, 0, 0.08);
+}
+
+html.dark {
+    --color-bg: #0F172A;
+    --color-surface: #1E293B;
+    --color-surface-alt: #0F172A;
+    --color-surface-2: #0b1220;
+
+    --color-text: #f1f5f9;
+    --color-text-muted: #94a3b8;
+    --color-text-faint: #64748b;
+
+    --color-border: rgba(255, 255, 255, 0.07);
+    --color-border-soft: rgba(255, 255, 255, 0.04);
+
+    --color-header-bg: rgba(15, 23, 42, 0.9);
+    --card-shadow-val: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* ================================================
+   UTILITY CLASSES BACKED BY CSS VARIABLES
+   ================================================ */
+.bg-theme {
+    background-color: var(--color-bg);
+}
+
+.bg-surface {
+    background-color: var(--color-surface);
+}
+
+.bg-surface-alt {
+    background-color: var(--color-surface-alt);
+}
+
+.bg-surface-2 {
+    background-color: var(--color-surface-2);
+}
+
+.text-theme {
+    color: var(--color-text);
+}
+
+.text-muted {
+    color: var(--color-text-muted);
+}
+
+.border-theme {
+    border-color: var(--color-border);
+}
+
+/* ================================================
+   GLOBAL BASE
+   ================================================ */
 body {
     font-family: 'Inter', sans-serif;
     -webkit-tap-highlight-color: transparent;
     min-height: 100dvh;
-    background-color: #0F172A;
+    background-color: var(--color-bg);
+    color: var(--color-text);
     overflow-x: hidden;
     padding-bottom: 90px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
-.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ================================================
+   COMPONENTS
+   ================================================ */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
 .glass-header {
-    background: rgba(15, 23, 42, 0.9);
+    background: var(--color-header-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--color-border);
 }
+
 .brand-gradient {
     background: linear-gradient(135deg, #3ab9f8 0%, #8b5cf6 100%);
 }
-.card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); }
-.tab-content { display: none; animation: fadeIn 0.3s ease-out forwards; }
-.tab-content.active { display: block; }
+
+.card-shadow {
+    box-shadow: var(--card-shadow-val);
+}
+
+/* Card base for light/dark */
+.card-base {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+}
+
+/* ================================================
+   ANIMATIONS
+   ================================================ */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.tab-content.active {
+    display: block;
+}
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
+
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(100%); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-.modal-animate-enter { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+.modal-animate-enter {
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 
 /* Loader */
 .loader {
@@ -42,4 +165,55 @@ body {
     height: 24px;
     animation: spin 1s linear infinite;
 }
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ================================================
+   LIGHT MODE: element overrides
+   ================================================ */
+html:not(.dark) .modal-sheet {
+    background-color: #ffffff;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+html:not(.dark) .modal-drag-handle {
+    background-color: #cbd5e1;
+}
+
+html:not(.dark) .form-input {
+    background-color: rgba(241, 245, 249, 0.8);
+    border-color: #e2e8f0;
+    color: #1e293b;
+}
+
+html:not(.dark) .form-input::placeholder {
+    color: #94a3b8;
+}
+
+html:not(.dark) .sticky-form-footer {
+    background-color: #ffffff;
+    border-top-color: rgba(0, 0, 0, 0.06);
+}
+
+html:not(.dark) .nav-bar {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+html:not(.dark) .chart-filter-active {
+    background-color: #e2e8f0;
+    color: #1e293b;
+}
+
+html:not(.dark) .pill-container {
+    background-color: rgba(241, 245, 249, 0.8);
+    border-color: rgba(0, 0, 0, 0.06);
+}

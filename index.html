@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -21,15 +21,18 @@
         rel="stylesheet" />
 
     <!-- Tailwind Configuration -->
+    <!-- Restore theme before paint to avoid flash -->
+    <script>if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');</script>
+
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#3ab9f8",
+                        "primary": "#0da2e7",
                         "accent": "#8b5cf6",
-                        "background-light": "#f5f7f8",
+                        "background-light": "#fdfcfb",
                         "background-dark": "#0F172A",
                         "card-dark": "#1E293B",
                         "success": "#10b981",
@@ -42,7 +45,7 @@
                         "display": ["Inter", "sans-serif"]
                     },
                     boxShadow: {
-                        'glow': '0 0 15px rgba(58, 185, 248, 0.5)',
+                        'glow': '0 0 15px rgba(13, 162, 231, 0.5)',
                     }
                 },
             },
@@ -53,13 +56,13 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body class="dark text-slate-100 font-display">
+<body class="text-theme font-display">
 
     <!-- AUTHENTICATION SCREEN -->
     <div id="auth-screen"
-        class="fixed inset-0 z-[100] bg-background-dark flex flex-col justify-center items-center px-6 transition-opacity duration-300">
+        class="fixed inset-0 z-[100] bg-theme flex flex-col justify-center items-center px-6 transition-opacity duration-300">
         <div
-            class="w-full max-w-sm bg-card-dark p-8 rounded-[24px] border border-slate-800/60 card-shadow relative overflow-hidden">
+            class="w-full max-w-sm bg-surface p-8 rounded-[24px] border border-theme card-shadow relative overflow-hidden">
             <!-- Decorative Glow -->
             <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full -mr-16 -mt-16"></div>
             <div class="absolute bottom-0 left-0 w-32 h-32 bg-accent/10 blur-3xl rounded-full -ml-16 -mb-16"></div>
@@ -67,20 +70,20 @@
             <div class="text-center relative z-10 mb-8 flex flex-col items-center">
                 <img src="logo.png" alt="PressoCare Logo"
                     class="w-64 max-w-[80vw] h-auto -mb-6 object-contain drop-shadow-2xl" />
-                <p class="text-slate-400 text-sm relative z-20">Sign in to sync your data</p>
+                <p class="text-muted text-sm relative z-20">Sign in to sync your data</p>
             </div>
 
             <form id="auth-form" class="relative z-10 flex flex-col gap-4">
                 <label class="flex flex-col gap-1.5">
-                    <span class="text-slate-400 text-xs font-bold uppercase tracking-wider ml-1">Email Address</span>
+                    <span class="text-muted text-xs font-bold uppercase tracking-wider ml-1">Email Address</span>
                     <input id="auth-email" required type="email"
-                        class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                        class="form-input w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-theme placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
                         placeholder="you@email.com" />
                 </label>
                 <label class="flex flex-col gap-1.5 mb-2">
-                    <span class="text-slate-400 text-xs font-bold uppercase tracking-wider ml-1">Password</span>
+                    <span class="text-muted text-xs font-bold uppercase tracking-wider ml-1">Password</span>
                     <input id="auth-password" required minlength="6" type="password"
-                        class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                        class="form-input w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-theme placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
                         placeholder="••••••••" />
                 </label>
 
@@ -106,7 +109,7 @@
     <div id="main-app" class="hidden opacity-0 transition-opacity duration-300">
         <!-- Header -->
         <header
-            class="sticky top-0 z-20 glass-header px-4 pt-4 pb-3 border-b border-slate-800/50 flex flex-row items-center justify-between">
+            class="sticky top-0 z-20 glass-header px-4 pt-4 pb-3 border-b border-theme flex flex-row items-center justify-between">
             <div class="flex items-center gap-2">
                 <img src="logo.png" alt="PressoCare Logo" class="h-11 w-auto object-contain" />
             </div>
@@ -115,7 +118,7 @@
             <div class="flex-1 flex justify-center px-4">
                 <div class="relative w-full max-w-[200px]">
                     <select id="active-profile-select" onchange="window.appActions.onActiveProfileChange()"
-                        class="appearance-none w-full bg-slate-800 border border-slate-700 text-white text-sm font-semibold rounded-full px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-primary/50 text-center truncate">
+                        class="appearance-none w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-theme text-sm font-semibold rounded-full px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-primary/50 text-center truncate">
                         <option value="">Loading profiles...</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
@@ -124,11 +127,19 @@
                 </div>
             </div>
 
-            <button onclick="window.appActions.signOutUser()"
-                class="w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 flex items-center justify-center border border-primary/20 transition-colors focus:outline-none flex-shrink-0"
-                title="Sign Out">
-                <span class="material-symbols-outlined text-danger-2/80">logout</span>
-            </button>
+            <div class="flex items-center gap-2">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle-btn" onclick="window.appActions.toggleTheme()"
+                    class="w-10 h-10 rounded-full bg-surface-alt dark:bg-slate-800 hover:opacity-80 flex items-center justify-center border border-theme transition-all focus:outline-none flex-shrink-0"
+                    title="Toggle theme">
+                    <span id="theme-icon" class="material-symbols-outlined text-[20px] text-primary">light_mode</span>
+                </button>
+                <button onclick="window.appActions.signOutUser()"
+                    class="w-10 h-10 rounded-full bg-surface-alt dark:bg-slate-800 hover:opacity-80 flex items-center justify-center border border-theme transition-colors focus:outline-none flex-shrink-0"
+                    title="Sign Out">
+                    <span class="material-symbols-outlined text-danger-2/80">logout</span>
+                </button>
+            </div>
         </header>
 
         <!-- No Profiles Warning -->
@@ -140,7 +151,7 @@
         <!-- TAB 1: History -->
         <main id="tab-history" class="tab-content px-6 mt-6 pb-48 hide-scrollbar">
             <div class="mb-4 flex justify-between items-end">
-                <h2 class="text-2xl font-bold text-white">History</h2>
+                <h2 class="text-2xl font-bold text-theme">History</h2>
             </div>
 
             <!-- History Type Filter -->
@@ -148,12 +159,12 @@
                 <button id="hist-filter-all" onclick="window.appActions.setHistoryFilter('all')"
                     class="flex-shrink-0 px-3 py-1.5 text-[10px] font-bold uppercase rounded-full bg-primary/20 text-primary border border-primary/30 transition-all focus:outline-none">All</button>
                 <button id="hist-filter-bp" onclick="window.appActions.setHistoryFilter('bp')"
-                    class="flex-shrink-0 px-3 py-1.5 text-[10px] font-bold uppercase rounded-full text-slate-400 border border-slate-700 hover:text-white transition-all focus:outline-none">Blood
+                    class="flex-shrink-0 px-3 py-1.5 text-[10px] font-bold uppercase rounded-full text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700 hover:text-primary transition-all focus:outline-none">Blood
                     Pressure</button>
                 <button id="hist-filter-glucose" onclick="window.appActions.setHistoryFilter('glucose')"
-                    class="flex-shrink-0 px-3 py-1.5 text-[10px] font-bold uppercase rounded-full text-slate-400 border border-slate-700 hover:text-white transition-all focus:outline-none">Glucose</button>
+                    class="flex-shrink-0 px-3 py-1.5 text-[10px] font-bold uppercase rounded-full text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700 hover:text-primary transition-all focus:outline-none">Glucose</button>
                 <button id="hist-filter-weight" onclick="window.appActions.setHistoryFilter('weight')"
-                    class="flex-shrink-0 px-3 py-1.5 text-[10px] font-bold uppercase rounded-full text-slate-400 border border-slate-700 hover:text-white transition-all focus:outline-none">Weight</button>
+                    class="flex-shrink-0 px-3 py-1.5 text-[10px] font-bold uppercase rounded-full text-slate-500 dark:text-slate-400 border border-slate-300 dark:border-slate-700 hover:text-primary transition-all focus:outline-none">Weight</button>
             </div>
 
             <!-- Loading indicator for data -->
@@ -167,10 +178,10 @@
             <!-- Empty message -->
             <div id="empty-history" class="hidden flex-col items-center justify-center py-12 text-center">
                 <div
-                    class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mb-4 border border-slate-700">
-                    <span class="material-symbols-outlined text-3xl text-slate-500">history_toggle_off</span>
+                    class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4 border border-slate-200 dark:border-slate-700">
+                    <span class="material-symbols-outlined text-3xl text-slate-400">history_toggle_off</span>
                 </div>
-                <h3 class="text-lg font-bold text-white mb-2">No records found</h3>
+                <h3 class="text-lg font-bold text-theme mb-2">No records found</h3>
                 <p class="text-slate-400 text-sm max-w-[250px]">Tap the "+" button at the bottom to add your first
                     measurement for this profile.</p>
             </div>
@@ -179,21 +190,22 @@
         <!-- TAB 2: Statistics (Home) -->
         <main id="tab-stats" class="tab-content active px-6 mt-6 pb-6 hide-scrollbar">
             <div class="mb-4 flex justify-between items-end">
-                <h2 class="text-2xl font-bold text-white">Home</h2>
+                <h2 class="text-2xl font-bold text-theme">Home</h2>
             </div>
 
             <!-- Category Tab Pills -->
-            <div class="flex gap-2 bg-slate-800/50 rounded-xl p-1 border border-slate-700/50 mb-6">
+            <div
+                class="pill-container flex gap-2 bg-slate-100 dark:bg-slate-800/50 rounded-xl p-1 border border-slate-200 dark:border-slate-700/50 mb-6">
                 <button id="home-tab-bp" onclick="window.appActions.setHomeTab('bp')"
                     class="flex-1 py-2 text-[11px] font-bold uppercase rounded-lg bg-primary/20 text-primary border border-primary/30 transition-all focus:outline-none flex items-center justify-center gap-1">
                     <span class="material-symbols-outlined text-[14px]">favorite</span>BP
                 </button>
                 <button id="home-tab-glucose" onclick="window.appActions.setHomeTab('glucose')"
-                    class="flex-1 py-2 text-[11px] font-bold uppercase rounded-lg text-slate-400 hover:text-white transition-all focus:outline-none flex items-center justify-center gap-1">
+                    class="flex-1 py-2 text-[11px] font-bold uppercase rounded-lg text-slate-500 dark:text-slate-400 hover:text-primary transition-all focus:outline-none flex items-center justify-center gap-1">
                     <span class="material-symbols-outlined text-[14px]">water_drop</span>Glucose
                 </button>
                 <button id="home-tab-weight" onclick="window.appActions.setHomeTab('weight')"
-                    class="flex-1 py-2 text-[11px] font-bold uppercase rounded-lg text-slate-400 hover:text-white transition-all focus:outline-none flex items-center justify-center gap-1">
+                    class="flex-1 py-2 text-[11px] font-bold uppercase rounded-lg text-slate-500 dark:text-slate-400 hover:text-primary transition-all focus:outline-none flex items-center justify-center gap-1">
                     <span class="material-symbols-outlined text-[14px]">scale</span>Weight
                 </button>
             </div>
@@ -201,52 +213,56 @@
             <!-- ====== BLOOD PRESSURE PANEL ====== -->
             <div id="home-panel-bp">
                 <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div class="bg-card-dark rounded-xl p-5 shadow-sm border-t-2 border-primary card-shadow">
-                        <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Average</p>
+                    <div
+                        class="bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/5 dark:to-card-dark rounded-xl p-5 shadow-sm border-t-2 border-primary card-shadow">
+                        <p class="text-muted text-xs font-bold uppercase tracking-wider mb-1">Average</p>
                         <div class="flex items-baseline gap-1">
-                            <span id="stat-avg" class="text-2xl font-bold text-white">-/-</span>
+                            <span id="stat-avg" class="text-2xl font-bold text-theme">-/-</span>
                             <span class="text-slate-500 text-xs">mmHg</span>
                         </div>
                     </div>
-                    <div class="bg-card-dark rounded-xl p-5 shadow-sm border-t-2 border-accent card-shadow">
-                        <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Avg. Pulse</p>
+                    <div
+                        class="bg-gradient-to-br from-accent/10 to-accent/5 dark:from-accent/5 dark:to-card-dark rounded-xl p-5 shadow-sm border-t-2 border-accent card-shadow">
+                        <p class="text-muted text-xs font-bold uppercase tracking-wider mb-1">Avg. Pulse</p>
                         <div class="flex items-baseline gap-1">
-                            <span id="stat-pulse" class="text-2xl font-bold text-white">-</span>
+                            <span id="stat-pulse" class="text-2xl font-bold text-theme">-</span>
                             <span class="text-slate-500 text-xs">bpm</span>
                         </div>
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4 mb-6">
                     <div
-                        class="bg-card-dark rounded-xl p-4 shadow-sm border border-slate-800/60 flex flex-col items-center justify-center">
-                        <span class="text-slate-500 text-[10px] font-bold uppercase mb-1">Minimum</span>
+                        class="bg-gradient-to-br from-primary/8 to-white dark:from-primary/5 dark:to-card-dark rounded-xl p-4 shadow-sm border border-primary/20 dark:border-slate-800/60 flex flex-col items-center justify-center">
+                        <span class="text-muted text-[10px] font-bold uppercase mb-1">Minimum</span>
                         <span id="stat-min" class="text-lg font-bold text-primary">-/-</span>
                     </div>
                     <div
-                        class="bg-card-dark rounded-xl p-4 shadow-sm border border-slate-800/60 flex flex-col items-center justify-center">
-                        <span class="text-slate-500 text-[10px] font-bold uppercase mb-1">Maximum</span>
+                        class="bg-gradient-to-br from-danger-2/8 to-white dark:from-danger-2/5 dark:to-card-dark rounded-xl p-4 shadow-sm border border-danger-2/20 dark:border-slate-800/60 flex flex-col items-center justify-center">
+                        <span class="text-muted text-[10px] font-bold uppercase mb-1">Maximum</span>
                         <span id="stat-max" class="text-lg font-bold text-danger-2">-/-</span>
                     </div>
                 </div>
                 <div
-                    class="bg-card-dark rounded-[24px] p-6 card-shadow border border-slate-800/60 relative overflow-hidden mb-6">
+                    class="bg-white dark:bg-card-dark rounded-[24px] p-6 card-shadow border border-slate-100 dark:border-slate-800/60 relative overflow-hidden mb-6">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-bold text-lg text-white">Pressure Trend</h3>
-                        <div class="flex gap-1 bg-slate-800/50 rounded-lg p-1 border border-slate-700/50">
+                        <h3 class="font-bold text-lg text-theme">Pressure Trend</h3>
+                        <div
+                            class="flex gap-1 bg-slate-100 dark:bg-slate-800/50 rounded-lg p-1 border border-slate-200 dark:border-slate-700/50">
                             <button onclick="window.appActions.setChartTimeframe('7d')" id="chart-filter-7d"
-                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-400 hover:text-white transition-colors focus:outline-none">Week</button>
+                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-500 dark:text-slate-400 hover:text-primary transition-colors focus:outline-none">Week</button>
                             <button onclick="window.appActions.setChartTimeframe('30d')" id="chart-filter-30d"
-                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-400 hover:text-white transition-colors focus:outline-none">Month</button>
+                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-500 dark:text-slate-400 hover:text-primary transition-colors focus:outline-none">Month</button>
                             <button onclick="window.appActions.setChartTimeframe('all')" id="chart-filter-all"
-                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md bg-slate-700 text-white shadow-sm transition-colors focus:outline-none">All</button>
+                                class="chart-filter-active px-3 py-1 text-[10px] font-bold uppercase rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-white shadow-sm transition-colors focus:outline-none">All</button>
                         </div>
                     </div>
                     <div class="relative h-56 w-full"><canvas id="bpChart"></canvas></div>
                 </div>
                 <div class="mb-6">
-                    <h3 class="font-bold text-lg text-white mb-4">Status Distribution</h3>
+                    <h3 class="font-bold text-lg text-theme mb-4">Status Distribution</h3>
                     <div id="distribution-list"
-                        class="space-y-3 bg-card-dark p-5 rounded-2xl border border-slate-800/60 card-shadow"></div>
+                        class="space-y-3 bg-white dark:bg-card-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800/60 card-shadow">
+                    </div>
                 </div>
             </div>
 
@@ -254,41 +270,43 @@
             <div id="home-panel-glucose" class="hidden">
                 <div class="grid grid-cols-3 gap-3 mb-6">
                     <div
-                        class="bg-card-dark rounded-xl p-4 shadow-sm border-t-2 border-success card-shadow flex flex-col items-center">
-                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">Average</p>
-                        <span id="glu-avg" class="text-xl font-bold text-white">-</span>
+                        class="bg-gradient-to-br from-success/10 to-success/5 dark:from-success/5 dark:to-card-dark rounded-xl p-4 shadow-sm border-t-2 border-success card-shadow flex flex-col items-center">
+                        <p class="text-muted text-[10px] font-bold uppercase tracking-wider mb-1">Average</p>
+                        <span id="glu-avg" class="text-xl font-bold text-theme">-</span>
                         <span class="text-slate-500 text-[10px]">mg/dL</span>
                     </div>
                     <div
-                        class="bg-card-dark rounded-xl p-4 shadow-sm border border-slate-800/60 flex flex-col items-center">
-                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">Min</p>
+                        class="bg-gradient-to-br from-primary/8 to-white dark:from-primary/5 dark:to-card-dark rounded-xl p-4 shadow-sm border border-primary/20 dark:border-slate-800/60 flex flex-col items-center">
+                        <p class="text-muted text-[10px] font-bold uppercase tracking-wider mb-1">Min</p>
                         <span id="glu-min" class="text-xl font-bold text-primary">-</span>
                     </div>
                     <div
-                        class="bg-card-dark rounded-xl p-4 shadow-sm border border-slate-800/60 flex flex-col items-center">
-                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">Max</p>
+                        class="bg-gradient-to-br from-danger-2/8 to-white dark:from-danger-2/5 dark:to-card-dark rounded-xl p-4 shadow-sm border border-danger-2/20 dark:border-slate-800/60 flex flex-col items-center">
+                        <p class="text-muted text-[10px] font-bold uppercase tracking-wider mb-1">Max</p>
                         <span id="glu-max" class="text-xl font-bold text-danger-2">-</span>
                     </div>
                 </div>
                 <div
-                    class="bg-card-dark rounded-[24px] p-6 card-shadow border border-slate-800/60 relative overflow-hidden mb-6">
+                    class="bg-white dark:bg-card-dark rounded-[24px] p-6 card-shadow border border-slate-100 dark:border-slate-800/60 relative overflow-hidden mb-6">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-bold text-lg text-white">Glucose Trend</h3>
-                        <div class="flex gap-1 bg-slate-800/50 rounded-lg p-1 border border-slate-700/50">
+                        <h3 class="font-bold text-lg text-theme">Glucose Trend</h3>
+                        <div
+                            class="flex gap-1 bg-slate-100 dark:bg-slate-800/50 rounded-lg p-1 border border-slate-200 dark:border-slate-700/50">
                             <button onclick="window.appActions.setChartTimeframe('7d')" id="glu-filter-7d"
-                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-400 hover:text-white transition-colors focus:outline-none">Week</button>
+                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-500 dark:text-slate-400 hover:text-primary transition-colors focus:outline-none">Week</button>
                             <button onclick="window.appActions.setChartTimeframe('30d')" id="glu-filter-30d"
-                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-400 hover:text-white transition-colors focus:outline-none">Month</button>
+                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-500 dark:text-slate-400 hover:text-primary transition-colors focus:outline-none">Month</button>
                             <button onclick="window.appActions.setChartTimeframe('all')" id="glu-filter-all"
-                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md bg-slate-700 text-white shadow-sm transition-colors focus:outline-none">All</button>
+                                class="chart-filter-active px-3 py-1 text-[10px] font-bold uppercase rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-white shadow-sm transition-colors focus:outline-none">All</button>
                         </div>
                     </div>
                     <div class="relative h-56 w-full"><canvas id="glucoseChart"></canvas></div>
                 </div>
                 <div class="mb-6">
-                    <h3 class="font-bold text-lg text-white mb-4">Status Distribution</h3>
+                    <h3 class="font-bold text-lg text-theme mb-4">Status Distribution</h3>
                     <div id="glu-distribution"
-                        class="space-y-3 bg-card-dark p-5 rounded-2xl border border-slate-800/60 card-shadow"></div>
+                        class="space-y-3 bg-white dark:bg-card-dark p-5 rounded-2xl border border-slate-100 dark:border-slate-800/60 card-shadow">
+                    </div>
                 </div>
             </div>
 
@@ -296,48 +314,50 @@
             <div id="home-panel-weight" class="hidden">
                 <div class="grid grid-cols-3 gap-3 mb-6">
                     <div
-                        class="bg-card-dark rounded-xl p-4 shadow-sm border-t-2 border-accent card-shadow flex flex-col items-center">
-                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">Average</p>
-                        <span id="wt-avg" class="text-xl font-bold text-white">-</span>
+                        class="bg-gradient-to-br from-accent/10 to-accent/5 dark:from-accent/5 dark:to-card-dark rounded-xl p-4 shadow-sm border-t-2 border-accent card-shadow flex flex-col items-center">
+                        <p class="text-muted text-[10px] font-bold uppercase tracking-wider mb-1">Average</p>
+                        <span id="wt-avg" class="text-xl font-bold text-theme">-</span>
                         <span class="text-slate-500 text-[10px]">lbs</span>
                     </div>
                     <div
-                        class="bg-card-dark rounded-xl p-4 shadow-sm border border-slate-800/60 flex flex-col items-center">
-                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">Min</p>
+                        class="bg-gradient-to-br from-primary/8 to-white dark:from-primary/5 dark:to-card-dark rounded-xl p-4 shadow-sm border border-primary/20 dark:border-slate-800/60 flex flex-col items-center">
+                        <p class="text-muted text-[10px] font-bold uppercase tracking-wider mb-1">Min</p>
                         <span id="wt-min" class="text-xl font-bold text-primary">-</span>
                     </div>
                     <div
-                        class="bg-card-dark rounded-xl p-4 shadow-sm border border-slate-800/60 flex flex-col items-center">
-                        <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-1">Max</p>
+                        class="bg-gradient-to-br from-danger-2/8 to-white dark:from-danger-2/5 dark:to-card-dark rounded-xl p-4 shadow-sm border border-danger-2/20 dark:border-slate-800/60 flex flex-col items-center">
+                        <p class="text-muted text-[10px] font-bold uppercase tracking-wider mb-1">Max</p>
                         <span id="wt-max" class="text-xl font-bold text-danger-2">-</span>
                     </div>
                 </div>
                 <div
-                    class="bg-card-dark rounded-[24px] p-6 card-shadow border border-slate-800/60 relative overflow-hidden mb-6">
+                    class="bg-white dark:bg-card-dark rounded-[24px] p-6 card-shadow border border-slate-100 dark:border-slate-800/60 relative overflow-hidden mb-6">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-bold text-lg text-white">Weight Trend</h3>
-                        <div class="flex gap-1 bg-slate-800/50 rounded-lg p-1 border border-slate-700/50">
+                        <h3 class="font-bold text-lg text-theme">Weight Trend</h3>
+                        <div
+                            class="flex gap-1 bg-slate-100 dark:bg-slate-800/50 rounded-lg p-1 border border-slate-200 dark:border-slate-700/50">
                             <button onclick="window.appActions.setChartTimeframe('7d')" id="wt-filter-7d"
-                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-400 hover:text-white transition-colors focus:outline-none">Week</button>
+                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-500 dark:text-slate-400 hover:text-primary transition-colors focus:outline-none">Week</button>
                             <button onclick="window.appActions.setChartTimeframe('30d')" id="wt-filter-30d"
-                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-400 hover:text-white transition-colors focus:outline-none">Month</button>
+                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md text-slate-500 dark:text-slate-400 hover:text-primary transition-colors focus:outline-none">Month</button>
                             <button onclick="window.appActions.setChartTimeframe('all')" id="wt-filter-all"
-                                class="px-3 py-1 text-[10px] font-bold uppercase rounded-md bg-slate-700 text-white shadow-sm transition-colors focus:outline-none">All</button>
+                                class="chart-filter-active px-3 py-1 text-[10px] font-bold uppercase rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-white shadow-sm transition-colors focus:outline-none">All</button>
                         </div>
                     </div>
                     <div class="relative h-56 w-full"><canvas id="weightChart"></canvas></div>
                 </div>
                 <!-- BMI Section -->
                 <div id="bmi-section" class="mb-6 hidden">
-                    <h3 class="font-bold text-lg text-white mb-4">Body Mass Index (BMI)</h3>
-                    <div class="bg-card-dark rounded-[24px] p-6 border border-slate-800/60 card-shadow">
+                    <h3 class="font-bold text-lg text-theme mb-4">Body Mass Index (BMI)</h3>
+                    <div
+                        class="bg-white dark:bg-card-dark rounded-[24px] p-6 border border-slate-100 dark:border-slate-800/60 card-shadow">
                         <!-- Big BMI number -->
                         <div class="flex items-end justify-between mb-5">
                             <div>
                                 <p class="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Current BMI
                                 </p>
                                 <div class="flex items-baseline gap-2">
-                                    <span id="bmi-value" class="text-4xl font-black text-white">-</span>
+                                    <span id="bmi-value" class="text-4xl font-black text-theme">-</span>
                                     <span class="text-slate-500 text-sm">kg/m²</span>
                                 </div>
                                 <p class="text-[11px] text-slate-500 mt-1" id="bmi-detail"></p>
@@ -384,7 +404,7 @@
         <!-- TAB 3: Profiles -->
         <main id="tab-profiles" class="tab-content px-6 mt-6 pb-48 hide-scrollbar">
             <div class="mb-6 flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-white">Family Profiles</h2>
+                <h2 class="text-2xl font-bold text-theme">Family Profiles</h2>
                 <button onclick="window.appActions.openProfileModal()"
                     class="text-primary text-sm font-bold flex items-center bg-primary/10 px-3 py-1.5 rounded-full hover:bg-primary/20 transition-colors">
                     <span class="material-symbols-outlined text-[18px] mr-1">person_add</span>
@@ -400,16 +420,16 @@
 
             <div id="empty-profiles" class="hidden flex-col items-center justify-center py-12 text-center">
                 <div
-                    class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mb-4 border border-slate-700">
+                    class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4 border border-slate-200 dark:border-slate-700">
                     <span class="material-symbols-outlined text-3xl text-slate-500">group_off</span>
                 </div>
-                <h3 class="text-lg font-bold text-white mb-2">No Profiles</h3>
-                <p class="text-slate-400 text-sm">Add the first member to start using the app.</p>
+                <h3 class="text-lg font-bold text-theme mb-2">No Profiles</h3>
+                <p class="text-muted text-sm">Add the first member to start using the app.</p>
             </div>
         </main>
 
         <!-- Bottom Navigation -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-2xl border-t border-slate-800/80 px-4 py-3 pb-safe-area flex justify-between items-center z-40"
+        <nav class="nav-bar fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border-t border-slate-200 dark:border-slate-800/80 px-4 py-3 pb-safe-area flex justify-between items-center z-40"
             style="padding-bottom: env(safe-area-inset-bottom, 16px);">
             <button onclick="window.appActions.switchTab('stats')" id="nav-stats"
                 class="w-1/3 flex flex-col items-center gap-1 text-primary transition-colors focus:outline-none">
@@ -430,7 +450,7 @@
 
         <!-- Floating Action Button (+ Add Measurement) -->
         <button onclick="window.appActions.openCategoryPicker()"
-            class="fixed bottom-[calc(env(safe-area-inset-bottom,16px)+64px)] right-6 md:bottom-6 md:right-1/2 md:translate-x-1/2 z-50 w-14 h-14 md:w-16 md:h-16 brand-gradient rounded-full shadow-lg shadow-primary/40 flex items-center justify-center text-white active:scale-95 transition-transform border-4 border-slate-900 focus:outline-none">
+            class="fixed bottom-[calc(env(safe-area-inset-bottom,16px)+64px)] right-6 md:bottom-6 md:right-1/2 md:translate-x-1/2 z-50 w-14 h-14 md:w-16 md:h-16 brand-gradient rounded-full shadow-lg shadow-primary/40 flex items-center justify-center text-white active:scale-95 transition-transform border-4 border-white dark:border-slate-900 focus:outline-none">
             <span class="material-symbols-outlined text-3xl">add</span>
         </button>
 
@@ -443,26 +463,26 @@
             <div class="absolute inset-0 bg-background-dark/80 backdrop-blur-sm"
                 onclick="window.appActions.closeCategoryPicker()"></div>
             <div
-                class="relative w-full bg-slate-900 border-t border-slate-700/50 rounded-t-2xl shadow-2xl p-6 pb-10 modal-animate-enter">
+                class="relative w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700/50 rounded-t-2xl shadow-2xl p-6 pb-10 modal-animate-enter">
                 <div class="flex h-6 w-full items-center justify-center mb-4">
-                    <div class="h-1.5 w-12 rounded-full bg-slate-700"></div>
+                    <div class="h-1.5 w-12 rounded-full bg-slate-300 dark:bg-slate-700"></div>
                 </div>
-                <h2 class="text-white text-xl font-bold text-center mb-6">What do you want to log?</h2>
+                <h2 class="text-theme text-xl font-bold text-center mb-6">What do you want to log?</h2>
                 <div class="grid grid-cols-3 gap-3">
                     <button onclick="window.appActions.openBPModal()"
                         class="flex flex-col items-center gap-2 p-4 bg-primary/10 border border-primary/30 rounded-2xl hover:bg-primary/20 active:scale-95 transition-all focus:outline-none">
                         <span class="material-symbols-outlined text-3xl text-primary">favorite</span>
-                        <span class="text-xs font-bold text-white">Blood Pressure</span>
+                        <span class="text-xs font-bold text-theme">Blood Pressure</span>
                     </button>
                     <button onclick="window.appActions.openGlucoseModal()"
                         class="flex flex-col items-center gap-2 p-4 bg-success/10 border border-success/30 rounded-2xl hover:bg-success/20 active:scale-95 transition-all focus:outline-none">
                         <span class="material-symbols-outlined text-3xl text-success">water_drop</span>
-                        <span class="text-xs font-bold text-white">Glucose</span>
+                        <span class="text-xs font-bold text-theme">Glucose</span>
                     </button>
                     <button onclick="window.appActions.openWeightModal()"
                         class="flex flex-col items-center gap-2 p-4 bg-accent/10 border border-accent/30 rounded-2xl hover:bg-accent/20 active:scale-95 transition-all focus:outline-none">
                         <span class="material-symbols-outlined text-3xl text-accent">scale</span>
-                        <span class="text-xs font-bold text-white">Weight</span>
+                        <span class="text-xs font-bold text-theme">Weight</span>
                     </button>
                 </div>
             </div>
@@ -470,23 +490,23 @@
 
         <!-- MODAL: Glucose -->
         <div id="glucoseModal" class="fixed inset-0 z-[60] flex-col justify-end hidden">
-            <div class="absolute inset-0 bg-background-dark/80 backdrop-blur-sm"
+            <div class="absolute inset-0 bg-slate-900/60 dark:bg-background-dark/80 backdrop-blur-sm"
                 onclick="window.appActions.closeGlucoseModal()"></div>
-            <div class="relative w-full bg-slate-900 border-t border-slate-700/50 rounded-t-2xl shadow-2xl overflow-y-auto modal-animate-enter"
+            <div class="relative w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700/50 rounded-t-2xl shadow-2xl overflow-y-auto modal-animate-enter"
                 style="max-height:92vh;">
                 <div class="flex h-6 w-full items-center justify-center pt-2">
-                    <div class="h-1.5 w-12 rounded-full bg-slate-700"></div>
+                    <div class="h-1.5 w-12 rounded-full bg-slate-300 dark:bg-slate-700"></div>
                 </div>
                 <div class="px-6 pt-4 pb-2 text-center">
-                    <h1 id="glucose-modal-title" class="text-white text-2xl font-bold">New Glucose Reading</h1>
+                    <h1 id="glucose-modal-title" class="text-theme text-2xl font-bold">New Glucose Reading</h1>
                 </div>
                 <form id="glucose-form" onsubmit="window.appActions.handleSaveGlucose(event)"
                     class="px-6 py-4 flex flex-col gap-5">
                     <label class="flex flex-col gap-2">
-                        <span class="text-slate-400 text-sm font-medium ml-1">Who is this for?</span>
+                        <span class="text-muted text-sm font-medium ml-1">Who is this for?</span>
                         <div class="relative">
                             <select id="glu-profile-id" required
-                                class="appearance-none w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white focus:ring-2 focus:ring-success/50 focus:border-success outline-none transition-all"></select>
+                                class="appearance-none w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-theme focus:ring-2 focus:ring-success/50 focus:border-success outline-none transition-all"></select>
                             <div
                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
                                 <span class="material-symbols-outlined">expand_more</span>
@@ -494,16 +514,16 @@
                         </div>
                     </label>
                     <label class="flex flex-col gap-2">
-                        <span class="text-slate-400 text-sm font-medium ml-1">Glucose (mg/dL)</span>
+                        <span class="text-muted text-sm font-medium ml-1">Glucose (mg/dL)</span>
                         <input id="glu-value" required min="20" max="600" type="number"
-                            class="w-full h-14 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-2xl font-bold text-white placeholder:text-slate-600 focus:ring-2 focus:ring-success/50 focus:border-success outline-none transition-all"
+                            class="w-full h-14 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-2xl font-bold text-theme placeholder:text-slate-400 focus:ring-2 focus:ring-success/50 focus:border-success outline-none transition-all"
                             placeholder="100" />
                     </label>
                     <label class="flex flex-col gap-2">
-                        <span class="text-slate-400 text-sm font-medium ml-1">Context</span>
+                        <span class="text-muted text-sm font-medium ml-1">Context</span>
                         <div class="relative">
                             <select id="glu-meal"
-                                class="appearance-none w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white focus:ring-2 focus:ring-success/50 outline-none transition-all">
+                                class="appearance-none w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-theme focus:ring-2 focus:ring-success/50 outline-none transition-all">
                                 <option value="fasting">Fasting</option>
                                 <option value="after-meal">After Meal</option>
                                 <option value="random">Random</option>
@@ -516,30 +536,30 @@
                     </label>
                     <div class="grid grid-cols-2 gap-4">
                         <label class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Date</span>
+                            <span class="text-muted text-sm font-medium ml-1">Date</span>
                             <input id="glu-date" type="date" required
-                                class="w-full h-10 bg-slate-800/50 border border-slate-700 rounded-xl px-3 text-sm text-white focus:border-success outline-none transition-all" />
+                                class="w-full h-10 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 text-sm text-theme focus:border-success outline-none transition-all" />
                         </label>
                         <label class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Time</span>
+                            <span class="text-muted text-sm font-medium ml-1">Time</span>
                             <input id="glu-time" type="time" required
-                                class="w-full h-10 bg-slate-800/50 border border-slate-700 rounded-xl px-3 text-sm text-white focus:border-success outline-none transition-all" />
+                                class="w-full h-10 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 text-sm text-theme focus:border-success outline-none transition-all" />
                         </label>
                     </div>
                     <label class="flex flex-col gap-2">
-                        <span class="text-slate-400 text-sm font-medium ml-1">Notes (optional)</span>
+                        <span class="text-muted text-sm font-medium ml-1">Notes (optional)</span>
                         <input id="glu-notes"
-                            class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-sm text-white focus:ring-2 focus:ring-success/50 outline-none transition-all"
+                            class="w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-sm text-theme focus:ring-2 focus:ring-success/50 outline-none transition-all"
                             placeholder="How do you feel?" type="text" />
                     </label>
                     <div
-                        class="flex flex-col gap-3 pb-8 mt-2 sticky bottom-0 bg-slate-900 pt-2 border-t border-slate-800/50">
+                        class="flex flex-col gap-3 pb-8 mt-2 sticky bottom-0 bg-white dark:bg-slate-900 pt-2 border-t border-slate-100 dark:border-slate-800/50">
                         <button type="submit" id="save-glucose-btn"
                             class="w-full h-14 bg-gradient-to-r from-success to-primary text-white font-bold text-lg rounded-xl shadow-lg shadow-success/20 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2">
                             <span class="material-symbols-outlined">save</span> Save
                         </button>
                         <button type="button" onclick="window.appActions.closeGlucoseModal()"
-                            class="w-full h-12 bg-transparent text-slate-400 font-medium text-base rounded-xl hover:bg-slate-800/50 transition-all focus:outline-none">Cancel</button>
+                            class="w-full h-12 bg-transparent text-slate-500 font-medium text-base rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-all focus:outline-none">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -547,23 +567,23 @@
 
         <!-- MODAL: Weight -->
         <div id="weightModal" class="fixed inset-0 z-[60] flex-col justify-end hidden">
-            <div class="absolute inset-0 bg-background-dark/80 backdrop-blur-sm"
+            <div class="absolute inset-0 bg-slate-900/60 dark:bg-background-dark/80 backdrop-blur-sm"
                 onclick="window.appActions.closeWeightModal()"></div>
-            <div class="relative w-full bg-slate-900 border-t border-slate-700/50 rounded-t-2xl shadow-2xl overflow-y-auto modal-animate-enter"
+            <div class="relative w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700/50 rounded-t-2xl shadow-2xl overflow-y-auto modal-animate-enter"
                 style="max-height:92vh;">
                 <div class="flex h-6 w-full items-center justify-center pt-2">
-                    <div class="h-1.5 w-12 rounded-full bg-slate-700"></div>
+                    <div class="h-1.5 w-12 rounded-full bg-slate-300 dark:bg-slate-700"></div>
                 </div>
                 <div class="px-6 pt-4 pb-2 text-center">
-                    <h1 id="weight-modal-title" class="text-white text-2xl font-bold">New Weight Entry</h1>
+                    <h1 id="weight-modal-title" class="text-theme text-2xl font-bold">New Weight Entry</h1>
                 </div>
                 <form id="weight-form" onsubmit="window.appActions.handleSaveWeight(event)"
                     class="px-6 py-4 flex flex-col gap-5">
                     <label class="flex flex-col gap-2">
-                        <span class="text-slate-400 text-sm font-medium ml-1">Who is this for?</span>
+                        <span class="text-muted text-sm font-medium ml-1">Who is this for?</span>
                         <div class="relative">
                             <select id="wt-profile-id" required
-                                class="appearance-none w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white focus:ring-2 focus:ring-accent/50 focus:border-accent outline-none transition-all"></select>
+                                class="appearance-none w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-theme focus:ring-2 focus:ring-accent/50 focus:border-accent outline-none transition-all"></select>
                             <div
                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
                                 <span class="material-symbols-outlined">expand_more</span>
@@ -571,37 +591,37 @@
                         </div>
                     </label>
                     <label class="flex flex-col gap-2">
-                        <span class="text-slate-400 text-sm font-medium ml-1">Weight (lbs)</span>
+                        <span class="text-muted text-sm font-medium ml-1">Weight (lbs)</span>
                         <input id="wt-value" required min="10" max="700" step="0.1" type="number"
-                            class="w-full h-14 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-2xl font-bold text-white placeholder:text-slate-600 focus:ring-2 focus:ring-accent/50 focus:border-accent outline-none transition-all"
+                            class="w-full h-14 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-2xl font-bold text-theme placeholder:text-slate-400 focus:ring-2 focus:ring-accent/50 focus:border-accent outline-none transition-all"
                             placeholder="150" />
                     </label>
                     <div class="grid grid-cols-2 gap-4">
                         <label class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Date</span>
+                            <span class="text-muted text-sm font-medium ml-1">Date</span>
                             <input id="wt-date" type="date" required
-                                class="w-full h-10 bg-slate-800/50 border border-slate-700 rounded-xl px-3 text-sm text-white focus:border-accent outline-none transition-all" />
+                                class="w-full h-10 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 text-sm text-theme focus:border-accent outline-none transition-all" />
                         </label>
                         <label class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Time</span>
+                            <span class="text-muted text-sm font-medium ml-1">Time</span>
                             <input id="wt-time" type="time" required
-                                class="w-full h-10 bg-slate-800/50 border border-slate-700 rounded-xl px-3 text-sm text-white focus:border-accent outline-none transition-all" />
+                                class="w-full h-10 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-3 text-sm text-theme focus:border-accent outline-none transition-all" />
                         </label>
                     </div>
                     <label class="flex flex-col gap-2">
-                        <span class="text-slate-400 text-sm font-medium ml-1">Notes (optional)</span>
+                        <span class="text-muted text-sm font-medium ml-1">Notes (optional)</span>
                         <input id="wt-notes"
-                            class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-sm text-white focus:ring-2 focus:ring-accent/50 outline-none transition-all"
+                            class="w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-sm text-theme focus:ring-2 focus:ring-accent/50 outline-none transition-all"
                             placeholder="e.g. After morning" type="text" />
                     </label>
                     <div
-                        class="flex flex-col gap-3 pb-8 mt-2 sticky bottom-0 bg-slate-900 pt-2 border-t border-slate-800/50">
+                        class="flex flex-col gap-3 pb-8 mt-2 sticky bottom-0 bg-white dark:bg-slate-900 pt-2 border-t border-slate-100 dark:border-slate-800/50">
                         <button type="submit" id="save-weight-btn"
                             class="w-full h-14 bg-gradient-to-r from-accent to-primary text-white font-bold text-lg rounded-xl shadow-lg shadow-accent/20 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2">
                             <span class="material-symbols-outlined">save</span> Save
                         </button>
                         <button type="button" onclick="window.appActions.closeWeightModal()"
-                            class="w-full h-12 bg-transparent text-slate-400 font-medium text-base rounded-xl hover:bg-slate-800/50 transition-all focus:outline-none">Cancel</button>
+                            class="w-full h-12 bg-transparent text-slate-500 font-medium text-base rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-all focus:outline-none">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -609,17 +629,17 @@
 
         <!-- MODAL: Add Measurement -->
         <div id="addModal" class="fixed inset-0 z-[60] flex-col justify-end hidden">
-            <div class="absolute inset-0 bg-background-dark/80 backdrop-blur-sm"
+            <div class="absolute inset-0 bg-slate-900/60 dark:bg-background-dark/80 backdrop-blur-sm"
                 onclick="window.appActions.closeModal()"></div>
 
-            <div class="relative w-full bg-slate-900 border-t border-slate-700/50 rounded-t-2xl shadow-2xl overflow-y-auto modal-animate-enter"
-                style="max-h: 92vh;">
+            <div class="relative w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700/50 rounded-t-2xl shadow-2xl overflow-y-auto modal-animate-enter"
+                style="max-height: 92vh;">
                 <div class="flex h-6 w-full items-center justify-center pt-2">
-                    <div class="h-1.5 w-12 rounded-full bg-slate-700"></div>
+                    <div class="h-1.5 w-12 rounded-full bg-slate-300 dark:bg-slate-700"></div>
                 </div>
 
                 <div class="px-6 pt-4 pb-2 text-center">
-                    <h1 id="measurement-modal-title" class="text-white text-2xl font-bold">New Measurement</h1>
+                    <h1 id="measurement-modal-title" class="text-theme text-2xl font-bold">New Measurement</h1>
                 </div>
 
                 <form id="add-form" onsubmit="window.appActions.handleSave(event)"
@@ -627,10 +647,10 @@
 
                     <!-- Profile Selector -->
                     <label class="flex flex-col gap-2">
-                        <span class="text-slate-400 text-sm font-medium ml-1">Who is this for?</span>
+                        <span class="text-muted text-sm font-medium ml-1">Who is this for?</span>
                         <div class="relative group">
                             <select id="input-profile-id" required
-                                class="appearance-none w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all">
+                                class="appearance-none w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-theme placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all">
                                 <!-- Options injected via JS -->
                             </select>
                             <div
@@ -643,18 +663,18 @@
                     <!-- Sys / Dia -->
                     <div class="grid grid-cols-2 gap-4">
                         <label class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Systolic</span>
+                            <span class="text-muted text-sm font-medium ml-1">Systolic</span>
                             <div class="relative group">
                                 <input id="input-sys" required min="50" max="300"
-                                    class="w-full h-14 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-2xl font-bold text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                                    class="w-full h-14 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-2xl font-bold text-theme placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
                                     placeholder="120" type="number" />
                             </div>
                         </label>
                         <label class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Diastolic</span>
+                            <span class="text-muted text-sm font-medium ml-1">Diastolic</span>
                             <div class="relative group">
                                 <input id="input-dia" required min="30" max="200"
-                                    class="w-full h-14 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-2xl font-bold text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                                    class="w-full h-14 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-2xl font-bold text-theme placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
                                     placeholder="80" type="number" />
                             </div>
                         </label>
@@ -663,10 +683,10 @@
                     <!-- Pulse & Date/Time Row -->
                     <div class="grid grid-cols-2 gap-4">
                         <label class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Pulse</span>
+                            <span class="text-muted text-sm font-medium ml-1">Pulse</span>
                             <div class="relative group">
                                 <input id="input-pulse" required min="30" max="250"
-                                    class="w-full h-14 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-xl font-bold text-white placeholder:text-slate-600 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                                    class="w-full h-14 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-xl font-bold text-theme placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
                                     placeholder="72" type="number" />
                                 <div class="absolute right-4 top-1/2 -translate-y-1/2">
                                     <span class="material-symbols-outlined text-red-500">favorite</span>
@@ -675,24 +695,25 @@
                         </label>
 
                         <div class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Date / Time</span>
+                            <span class="text-muted text-sm font-medium ml-1">Date / Time</span>
                             <input id="input-date" type="date" required
-                                class="w-full h-8 bg-slate-800/50 border border-slate-700 rounded-lg px-2 text-sm text-white focus:border-primary outline-none transition-all mb-1 cursor-text" />
+                                class="w-full h-8 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-2 text-sm text-theme focus:border-primary outline-none transition-all mb-1 cursor-text" />
                             <input id="input-time" type="time" required
-                                class="w-full h-8 bg-slate-800/50 border border-slate-700 rounded-lg px-2 text-sm text-white focus:border-primary outline-none transition-all cursor-text" />
+                                class="w-full h-8 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-lg px-2 text-sm text-theme focus:border-primary outline-none transition-all cursor-text" />
                         </div>
                     </div>
 
                     <!-- Notes -->
                     <label class="flex flex-col gap-2">
-                        <span class="text-slate-400 text-sm font-medium ml-1">Notes (optional)</span>
+                        <span class="text-muted text-sm font-medium ml-1">Notes (optional)</span>
                         <input id="input-notes"
-                            class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-sm text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                            class="w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-sm text-theme focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
                             placeholder="How do you feel?" type="text" />
                     </label>
 
                     <!-- Status Reference -->
-                    <div class="bg-slate-800/30 border border-slate-700/50 rounded-2xl p-4 mt-2">
+                    <div
+                        class="bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/50 rounded-2xl p-4 mt-2">
                         <div class="flex items-center justify-between mb-3 text-slate-500">
                             <span class="text-[10px] font-bold uppercase tracking-widest pl-1">Status Reference</span>
                             <span class="material-symbols-outlined text-[16px]">info</span>
@@ -702,7 +723,7 @@
                             <div class="flex-1 flex flex-col items-center gap-1.5">
                                 <div class="w-full h-1.5 bg-success rounded-full"></div>
                                 <span
-                                    class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase leading-[1.1]">Normal</span>
+                                    class="text-[9px] sm:text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase leading-[1.1]">Normal</span>
                                 <span
                                     class="text-[8.5px] text-slate-500 font-medium leading-tight">&lt;120<br>&lt;80</span>
                             </div>
@@ -710,7 +731,7 @@
                             <div class="flex-1 flex flex-col items-center gap-1.5">
                                 <div class="w-full h-1.5 bg-warning rounded-full"></div>
                                 <span
-                                    class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase leading-[1.1]">Elevated</span>
+                                    class="text-[9px] sm:text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase leading-[1.1]">Elevated</span>
                                 <span
                                     class="text-[8.5px] text-slate-500 font-medium leading-tight">120-129<br>&lt;80</span>
                             </div>
@@ -718,7 +739,7 @@
                             <div class="flex-1 flex flex-col items-center gap-1.5">
                                 <div class="w-full h-1.5 bg-danger-1 rounded-full"></div>
                                 <span
-                                    class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase leading-[1.1]">Stage
+                                    class="text-[9px] sm:text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase leading-[1.1]">Stage
                                     1</span>
                                 <span
                                     class="text-[8.5px] text-slate-500 font-medium leading-tight">130-139<br>80-89</span>
@@ -727,7 +748,7 @@
                             <div class="flex-1 flex flex-col items-center gap-1.5">
                                 <div class="w-full h-1.5 bg-danger-2 rounded-full"></div>
                                 <span
-                                    class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase leading-[1.1]">Stage
+                                    class="text-[9px] sm:text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase leading-[1.1]">Stage
                                     2</span>
                                 <span class="text-[8.5px] text-slate-500 font-medium leading-tight">140+<br>90+</span>
                             </div>
@@ -735,7 +756,7 @@
                             <div class="flex-1 flex flex-col items-center gap-1.5 opacity-80">
                                 <div class="w-full h-1.5 bg-crisis rounded-full"></div>
                                 <span
-                                    class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase leading-[1.1]">Crisis</span>
+                                    class="text-[9px] sm:text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase leading-[1.1]">Crisis</span>
                                 <span
                                     class="text-[8.5px] text-slate-500 font-medium leading-tight">&gt;180<br>&gt;120</span>
                             </div>
@@ -744,7 +765,7 @@
 
                     <!-- Buttons -->
                     <div
-                        class="flex flex-col gap-3 pb-8 mt-2 sticky bottom-0 bg-slate-900 pt-2 border-t border-slate-800/50">
+                        class="flex flex-col gap-3 pb-8 mt-2 sticky bottom-0 bg-white dark:bg-slate-900 pt-2 border-t border-slate-100 dark:border-slate-800/50">
                         <button type="submit" id="save-reading-btn"
                             class="w-full h-14 bg-gradient-to-r from-primary to-accent text-white font-bold text-lg rounded-xl shadow-lg shadow-primary/20 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2">
                             <span class="material-symbols-outlined">save</span>
@@ -764,32 +785,32 @@
             <div class="absolute inset-0 bg-background-dark/80 backdrop-blur-sm"
                 onclick="window.appActions.closeProfileModal()"></div>
 
-            <div class="relative w-full bg-slate-900 border-t border-slate-700/50 rounded-t-2xl shadow-2xl overflow-y-auto modal-animate-enter"
-                style="max-h: 92vh;">
+            <div class="relative w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700/50 rounded-t-2xl shadow-2xl overflow-y-auto modal-animate-enter"
+                style="max-height: 92vh;">
                 <div class="flex h-6 w-full items-center justify-center pt-2">
-                    <div class="h-1.5 w-12 rounded-full bg-slate-700"></div>
+                    <div class="h-1.5 w-12 rounded-full bg-slate-300 dark:bg-slate-700"></div>
                 </div>
 
                 <div class="px-6 pt-4 pb-2 text-center">
-                    <h1 id="profile-modal-title" class="text-white text-2xl font-bold">New Profile</h1>
-                    <p id="profile-modal-subtitle" class="text-slate-400 text-sm">Add a family member or patient</p>
+                    <h1 id="profile-modal-title" class="text-theme text-2xl font-bold">New Profile</h1>
+                    <p id="profile-modal-subtitle" class="text-muted text-sm">Add a family member or patient</p>
                 </div>
 
                 <form id="profile-form" onsubmit="window.appActions.saveProfile(event)"
                     class="px-6 py-4 flex flex-col gap-4">
                     <label class="flex flex-col gap-2">
-                        <span class="text-slate-400 text-sm font-medium ml-1">Full Name</span>
+                        <span class="text-muted text-sm font-medium ml-1">Full Name</span>
                         <input id="profile-name" required type="text"
-                            class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                            class="w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-theme focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
                             placeholder="e.g. John Doe" />
                     </label>
 
                     <div class="grid grid-cols-2 gap-4">
                         <label class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Gender</span>
+                            <span class="text-muted text-sm font-medium ml-1">Gender</span>
                             <div class="relative">
                                 <select id="profile-gender" required
-                                    class="appearance-none w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all">
+                                    class="appearance-none w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-theme focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all">
                                     <option value="" disabled selected>Select...</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
@@ -801,27 +822,27 @@
                             </div>
                         </label>
                         <label class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Age</span>
+                            <span class="text-muted text-sm font-medium ml-1">Age</span>
                             <input id="profile-age" required min="0" max="130" type="number"
-                                class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                                class="w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-theme focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
                                 placeholder="Years" />
                         </label>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <label class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Height</span>
+                            <span class="text-muted text-sm font-medium ml-1">Height</span>
                             <div class="flex gap-2">
                                 <div class="relative flex-1">
                                     <input id="profile-height-ft" type="number" min="3" max="8" step="1"
-                                        class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 pr-8 text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                                        class="w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 pr-8 text-theme focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
                                         placeholder="5" />
                                     <span
                                         class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs font-bold">ft</span>
                                 </div>
                                 <div class="relative flex-1">
                                     <input id="profile-height-in" type="number" min="0" max="11" step="0.5"
-                                        class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 pr-8 text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                                        class="w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 pr-8 text-theme focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
                                         placeholder="10" />
                                     <span
                                         class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs font-bold">in</span>
@@ -829,9 +850,9 @@
                             </div>
                         </label>
                         <label class="flex flex-col gap-2">
-                            <span class="text-slate-400 text-sm font-medium ml-1">Weight (lbs)</span>
+                            <span class="text-muted text-sm font-medium ml-1">Weight (lbs)</span>
                             <input id="profile-weight" type="number" step="0.1"
-                                class="w-full h-12 bg-slate-800/50 border border-slate-700 rounded-xl px-4 text-white focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
+                                class="w-full h-12 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 text-theme focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all"
                                 placeholder="e.g. 150" />
                         </label>
                     </div>
